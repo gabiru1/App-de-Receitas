@@ -6,6 +6,8 @@ function Login() {
   const [password, setPassword] = useState('');
 
   function handleClick() {
+    localStorage.setItem('mealsToken', JSON.stringify(1));
+    localStorage.setItem('cocktailsToken', JSON.stringify(1));
   }
 
   const isValidEmail = email.match(/\S+@\S+\.\S+/);
