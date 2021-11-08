@@ -8,8 +8,8 @@ function Header({ title, showSearchBtn }) {
   return (
     <header>
       <div>
-        <Link to="/perfil" data-testid="profile-top-btn">
-          <img src={ profileIcon } alt="profile Icon" />
+        <Link to="/perfil">
+          <img data-testid="profile-top-btn" src={ profileIcon } alt="profile Icon" />
         </Link>
       </div>
       <div>
@@ -19,9 +19,8 @@ function Header({ title, showSearchBtn }) {
         {showSearchBtn && (
           <button
             type="button"
-            data-testid="search-top-btn"
           >
-            <img src={ searchIcon } alt="Button Search" />
+            <img data-testid="search-top-btn" src={ searchIcon } alt="Button Search" />
           </button>
         )}
       </div>

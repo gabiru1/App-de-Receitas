@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function ExploreFoodsByOrigin() {
   return (
-    <div>ExploreFoodsByOrigin</div>
+    <div>
+      <Header title="Explorar Origem" showSearchBtn />
+    </div>
   );
 }
 
