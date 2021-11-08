@@ -3,12 +3,38 @@ import PropTypes from 'prop-types';
 import './Header.css';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { fetchApiByFirstLetter,
+  fetchApiByIngredient, fetchApiByName } from '../services/FetchApi';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header({ title, showSearchBtn }) {
   const [showInputSearch, setShowInputSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   const [radioValue, setRadioValue] = useState('');
+
+  function handleClick() {
+    switch (radioValue) {
+    case 'ingrediente':
+      fetchApiByIngredient(searchValue);
+      setSearchValue('');
+      break;
+    case 'nome':
+      fetchApiByName(searchValue);
+      setSearchValue('');
+      break;
+    case 'primeira-letra':
+      if (searchValue.length > 1) {
+        global.alert('Sua busca deve conter somente 1 (um) caracter');
+        break;
+      }
+      fetchApiByFirstLetter(searchValue);
+      setSearchValue('');
+      break;
+    default:
+      break;
+    }
+  }
 
   return (
     <section>
@@ -41,6 +67,8 @@ function Header({ title, showSearchBtn }) {
             data-testid="search-input"
             name="searchInput"
             placeholder="Buscar Receita"
+            value={ searchValue }
+            onChange={ ({ target }) => setSearchValue(target.value) }
           />
           <label htmlFor="ingrediente">
             <input
@@ -75,7 +103,13 @@ function Header({ title, showSearchBtn }) {
             />
             Primeira letra
           </label>
-          <button type="button" data-testid="exec-search-btn">Buscar</button>
+          <button
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ handleClick }
+          >
+            Buscar
+          </button>
         </div>
       )}
     </section>
