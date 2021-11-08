@@ -8,6 +8,8 @@ import searchIcon from '../images/searchIcon.svg';
 
 function Header({ title, showSearchBtn }) {
   const [showInputSearch, setShowInputSearch] = useState(false);
+  const [radioValue, setRadioValue] = useState('');
+
   return (
     <section>
       <header className="header-container">
@@ -31,8 +33,8 @@ function Header({ title, showSearchBtn }) {
           )}
         </div>
       </header>
-      <div className="search-bar-container">
-        {showInputSearch && (
+      {showInputSearch && (
+        <div className="search-bar-container">
           <input
             className="search-bar"
             type="text"
@@ -40,8 +42,42 @@ function Header({ title, showSearchBtn }) {
             name="searchInput"
             placeholder="Buscar Receita"
           />
-        )}
-      </div>
+          <label htmlFor="ingrediente">
+            <input
+              id="ingrediente"
+              type="radio"
+              value="ingrediente"
+              name="radio-search"
+              data-testid="ingredient-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
+            />
+            Ingrediente
+          </label>
+          <label htmlFor="nome">
+            <input
+              id="nome"
+              type="radio"
+              value="nome"
+              name="radio-search"
+              data-testid="name-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
+            />
+            Nome
+          </label>
+          <label htmlFor="primeira-letra">
+            <input
+              id="primeira-letra"
+              type="radio"
+              value="primeira-letra"
+              name="radio-search"
+              data-testid="first-letter-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
+            />
+            Primeira letra
+          </label>
+          <button type="button" data-testid="exec-search-btn">Buscar</button>
+        </div>
+      )}
     </section>
   );
 }
