@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import RecipesContext from '../Context/RecipesContext';
 import { fetchApiByFirstLetter,
@@ -6,16 +7,19 @@ import { fetchApiByFirstLetter,
 
 function Drinks() {
   const { radioValue } = useContext(RecipesContext);
-  const { searchValue, setSearchValue } = useContext(RecipesContext);
+  const { searchValue, setSearchValue, data, setData } = useContext(RecipesContext);
+  let results = [];
 
-  function handleClick() {
+  async function handleClick() {
     switch (radioValue) {
     case 'ingrediente':
-      fetchApiByIngredient(searchValue);
+      results = await fetchApiByIngredient(searchValue);
+      setData(results.drinks);
       setSearchValue('');
       break;
     case 'nome':
-      fetchApiByName(searchValue);
+      results = await fetchApiByName(searchValue);
+      setData(results.drinks);
       setSearchValue('');
       break;
     case 'primeira-letra':
@@ -23,7 +27,8 @@ function Drinks() {
         global.alert('Sua busca deve conter somente 1 (um) caracter');
         break;
       }
-      fetchApiByFirstLetter(searchValue);
+      results = await fetchApiByFirstLetter(searchValue);
+      setData(results.drinks);
       setSearchValue('');
       break;
     default:
@@ -32,6 +37,7 @@ function Drinks() {
   }
   return (
     <div>
+      {(data.length === 1) && <Redirect to={ `/bebidas/${data[0].idDrink}` } />}
       <Header title="Bebidas" showSearchBtn handleClick={ handleClick } />
     </div>
   );

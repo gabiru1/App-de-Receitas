@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import { fetchApiByFirstLetter,
   fetchApiByIngredient, fetchApiByName } from '../services/FetchApi';
@@ -6,16 +7,19 @@ import RecipesContext from '../Context/RecipesContext';
 
 function Foods() {
   const { radioValue } = useContext(RecipesContext);
-  const { searchValue, setSearchValue } = useContext(RecipesContext);
+  const { searchValue, setSearchValue, data, setData } = useContext(RecipesContext);
+  let results = [];
 
-  function handleClick() {
+  async function handleClick() {
     switch (radioValue) {
     case 'ingrediente':
-      fetchApiByIngredient(searchValue, true);
+      results = await fetchApiByIngredient(searchValue, true);
+      setData(results.meals);
       setSearchValue('');
       break;
     case 'nome':
-      fetchApiByName(searchValue, true);
+      results = await fetchApiByName(searchValue, true);
+      setData(results.meals);
       setSearchValue('');
       break;
     case 'primeira-letra':
@@ -23,7 +27,8 @@ function Foods() {
         global.alert('Sua busca deve conter somente 1 (um) caracter');
         break;
       }
-      fetchApiByFirstLetter(searchValue, true);
+      results = await fetchApiByFirstLetter(searchValue, true);
+      setData(results.meals);
       setSearchValue('');
       break;
     default:
@@ -32,6 +37,7 @@ function Foods() {
   }
   return (
     <div>
+      {data.length === 1 && <Redirect to={ `/comidas/${data[0].idMeal}` } />}
       <Header title="Comidas" showSearchBtn handleClick={ handleClick } />
     </div>
   );
