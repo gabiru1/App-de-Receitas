@@ -1,0 +1,43 @@
+@media screen and ( max-width : 360px ) and ( max-height : 640px ) {
+
+  .containerLogin {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+  }
+
+  .boxLogin {
+    align-items: center;
+    border-radius: 25px;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    width: 70%;
+  }
+
+  .InputLogin {
+    border: 1px solid #c8d3e4;
+    border-radius: 25px;
+    height: 12px;
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  .btnLogin {
+    background: #003be5;
+    border-radius: 25px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    color: white;
+    height: 30px;
+    margin-top: 20px;
+    padding: 2px;
+    width: 80%;
+  }
+
+}
