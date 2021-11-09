@@ -5,7 +5,7 @@ import RecipesContext from '../Context/RecipesContext';
 
 function CategoryButtons() {
   const location = useLocation();
-  const { setData, data } = useContext(RecipesContext);
+  const { setData } = useContext(RecipesContext);
   const [categories, setcategories] = useState([]);
   const URL_FOOD = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const URL_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -24,7 +24,7 @@ function CategoryButtons() {
     console.log(target.id);
     let type = '';
     let URL = '';
-    const URL_FOOD_NAME = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${target.id}`;
+    const URL_FOOD_NAME = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.id}`;
     const URL_DRINK_NAME = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${target.id}`;
     if (location.pathname === '/comidas') {
       URL = URL_FOOD_NAME;
