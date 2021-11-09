@@ -71,6 +71,8 @@ function Drinks() {
               src={ strDrinkThumb }
               name={ strDrink }
               dataTesteID={ index }
+              id={ idDrink }
+              path="bebidas"
             />
           )))}
       </div>

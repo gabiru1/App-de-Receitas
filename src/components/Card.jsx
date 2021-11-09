@@ -1,26 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Card({ src, name, dataTesteID }) {
+function Card({ src, name, dataTesteID, id, path }) {
   return (
-    <div className="card">
-      <div
-        data-testid={ `${dataTesteID}-recipe-card` }
-      >
-        <img
-          src={ src }
-          alt={ name }
-          data-testid={ `${dataTesteID}-card-img` }
-          className="card-image"
-        />
-        <h3
-          data-testid={ `${dataTesteID}-card-name` }
-          className="card-title"
+    <Link to={ `${path}/${id}` } className="card">
+      <div>
+        <div
+          data-testid={ `${dataTesteID}-recipe-card` }
         >
-          { name }
-        </h3>
+          <img
+            src={ src }
+            alt={ name }
+            data-testid={ `${dataTesteID}-card-img` }
+            className="card-image"
+          />
+          <h3
+            data-testid={ `${dataTesteID}-card-name` }
+            className="card-title"
+          >
+            { name }
+          </h3>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
