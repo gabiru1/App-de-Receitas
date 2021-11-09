@@ -53,8 +53,8 @@ code {
   }
 
   .Footer {
-    position: fixed;
     bottom: 0px;
+    position: fixed;
     width: 100%;
   }
 
