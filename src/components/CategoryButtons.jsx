@@ -67,6 +67,13 @@ function CategoryButtons() {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={ setResultApi }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       {categories.map((category) => (
         <button
           id={ category.strCategory }
