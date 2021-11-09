@@ -15,8 +15,8 @@ function Drinks() {
   let results = [];
 
   async function setInitialData() {
-    const resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    setData(resultApi.drinks);
+    const resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
+    setData(resultApi);
   }
   useEffect(() => {
     setInitialData();

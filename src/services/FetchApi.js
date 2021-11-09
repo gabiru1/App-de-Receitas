@@ -31,8 +31,11 @@ export async function fetchApiByFirstLetter(primeiraLetra, food) {
   return result;
 }
 
-export async function fetchApi(url) {
+export async function fetchApi(url, food) {
   const response = await fetch(url);
   const resolve = await response.json();
-  return resolve;
+  if (food) {
+    return resolve.meals;
+  }
+  return resolve.drinks;
 }

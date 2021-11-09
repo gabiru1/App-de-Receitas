@@ -18,8 +18,8 @@ function Foods() {
   let results = [];
 
   async function setInitialData() {
-    const resultApi = await fetchApi('https://www.themealdb.com/api/json/v1/1/filter.php?i');
-    setData(resultApi.meals);
+    const resultApi = await fetchApi('https://www.themealdb.com/api/json/v1/1/filter.php?i', true);
+    setData(resultApi);
   }
   useEffect(() => {
     setInitialData();
