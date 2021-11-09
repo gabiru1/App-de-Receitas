@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { fetchApiByFirstLetter,
   fetchApiByIngredient, fetchApiByName } from '../services/FetchApi';
 import RecipesContext from '../Context/RecipesContext';
+import Footer from '../components/Footer';
 
 function Foods() {
   const { radioValue } = useContext(RecipesContext);
@@ -75,6 +76,7 @@ function Foods() {
             </div>
           )))}
       </div>
+      <Footer />
     </div>
   );
 }

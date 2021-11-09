@@ -6,7 +6,8 @@ import exploreIcon from '../images/exploreIcon.svg';
 
 function Footer() {
   return (
-    <div data-testid="footer">
+
+    <footer className="Footer" data-testid="footer">
       <Link to="/explorar">
         <button type="button" data-testid="explore-bottom-btn" src={ exploreIcon }>
           <img src={ exploreIcon } alt="Explore Icon" />
@@ -22,7 +23,8 @@ function Footer() {
           <img src={ drinkIcon } alt="Drink Icon" />
         </button>
       </Link>
-    </div>
+    </footer>
+
   );
 }
 

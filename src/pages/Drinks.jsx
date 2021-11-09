@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../Context/RecipesContext';
 import { fetchApiByFirstLetter,
@@ -75,6 +76,7 @@ function Drinks() {
             </div>
           )))}
       </div>
+      <Footer />
     </div>
   );
 }

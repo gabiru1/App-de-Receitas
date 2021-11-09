@@ -52,4 +52,10 @@ code {
     padding: 10px;
   }
 
+  .Footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+  }
+
 }
