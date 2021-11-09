@@ -8,17 +8,27 @@ import { fetchApiByFirstLetter,
 function Drinks() {
   const { radioValue } = useContext(RecipesContext);
   const { searchValue, setSearchValue, data, setData } = useContext(RecipesContext);
+  const maxResults = 12;
+  const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
 
   async function handleClick() {
     switch (radioValue) {
     case 'ingrediente':
       results = await fetchApiByIngredient(searchValue);
+      if (!results.drinks) {
+        global.alert(MESSAGE);
+        break;
+      }
       setData(results.drinks);
       setSearchValue('');
       break;
     case 'nome':
       results = await fetchApiByName(searchValue);
+      if (!results.drinks) {
+        global.alert(MESSAGE);
+        break;
+      }
       setData(results.drinks);
       setSearchValue('');
       break;
@@ -28,6 +38,10 @@ function Drinks() {
         break;
       }
       results = await fetchApiByFirstLetter(searchValue);
+      if (!results.drinks) {
+        global.alert(MESSAGE);
+        break;
+      }
       setData(results.drinks);
       setSearchValue('');
       break;
@@ -37,8 +51,30 @@ function Drinks() {
   }
   return (
     <div>
-      {(data.length === 1) && <Redirect to={ `/bebidas/${data[0].idDrink}` } />}
       <Header title="Bebidas" showSearchBtn handleClick={ handleClick } />
+      <div className="card-container">
+        {(data.length === 1) ? (<Redirect to={ `/bebidas/${data[0].idDrink}` } />) : (
+          data.slice(0, maxResults).map(({ idDrink, strDrink, strDrinkThumb }, index) => (
+            <div
+              key={ idDrink }
+              data-testid={ `${index}-recipe-card` }
+              className="card"
+            >
+              <img
+                src={ strDrinkThumb }
+                alt={ strDrink }
+                data-testid={ `${index}-card-img` }
+                className="card-image"
+              />
+              <h3
+                data-testid={ `${index}-card-name` }
+                className="card-title"
+              >
+                { strDrink }
+              </h3>
+            </div>
+          )))}
+      </div>
     </div>
   );
 }

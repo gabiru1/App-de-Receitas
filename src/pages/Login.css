@@ -40,4 +40,8 @@
     width: 80%;
   }
 
+  .btnLogin:disabled {
+    background: #86a0ee;
+  }
+
 }
