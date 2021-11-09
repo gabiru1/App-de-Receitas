@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import { fetchApiByFirstLetter,
-  fetchApiByIngredient, fetchApiByName } from '../services/FetchApi';
+  fetchApiByIngredient, fetchApiByName, fetchApi } from '../services/FetchApi';
 import RecipesContext from '../Context/RecipesContext';
+import Card from '../components/Card';
+import CategoryButtons from '../components/CategoryButtons';
 
 function Foods() {
   const { radioValue } = useContext(RecipesContext);
@@ -11,6 +13,14 @@ function Foods() {
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
+
+  async function setInitialData() {
+    const resultApi = await fetchApi('https://www.themealdb.com/api/json/v1/1/filter.php?i');
+    setData(resultApi.meals);
+  }
+  useEffect(() => {
+    setInitialData();
+  }, []);
 
   async function handleClick() {
     switch (radioValue) {
@@ -49,30 +59,20 @@ function Foods() {
       break;
     }
   }
+
   return (
     <div>
       <Header title="Comidas" showSearchBtn handleClick={ handleClick } />
+      <CategoryButtons />
       <div className="card-container">
         {(data.length === 1) ? (<Redirect to={ `/comidas/${data[0].idMeal}` } />) : (
           data.slice(0, maxResults).map(({ idMeal, strMeal, strMealThumb }, index) => (
-            <div
+            <Card
               key={ idMeal }
-              data-testid={ `${index}-recipe-card` }
-              className="card"
-            >
-              <img
-                src={ strMealThumb }
-                alt={ strMeal }
-                data-testid={ `${index}-card-img` }
-                className="card-image"
-              />
-              <h3
-                data-testid={ `${index}-card-name` }
-                className="card-title"
-              >
-                { strMeal }
-              </h3>
-            </div>
+              src={ strMealThumb }
+              name={ strMeal }
+              dataTesteID={ index }
+            />
           )))}
       </div>
     </div>

@@ -30,3 +30,9 @@ export async function fetchApiByFirstLetter(primeiraLetra, food) {
   const result = await response.json();
   return result;
 }
+
+export async function fetchApi(url) {
+  const response = await fetch(url);
+  const resolve = await response.json();
+  return resolve;
+}
