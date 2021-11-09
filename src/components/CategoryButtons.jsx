@@ -5,7 +5,7 @@ import RecipesContext from '../Context/RecipesContext';
 
 function CategoryButtons() {
   const location = useLocation();
-  const { setData } = useContext(RecipesContext);
+  const { setData, setIsSearchBar } = useContext(RecipesContext);
   const [categories, setcategories] = useState([]);
   const URL_FOOD = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const URL_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -21,6 +21,7 @@ function CategoryButtons() {
     }
   };
   async function handleClick({ target }) {
+    setIsSearchBar(false);
     console.log(target.id);
     let type = '';
     let URL = '';
