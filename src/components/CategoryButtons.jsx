@@ -23,37 +23,40 @@ function CategoryButtons() {
     }
   };
 
+  async function setResultApi() {
+    let resultApi = [];
+
+    if (location.pathname === '/comidas') {
+      resultApi = await fetchApi('https://www.themealdb.com/api/json/v1/1/filter.php?i', true);
+    } else {
+      resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
+    }
+    setData(resultApi);
+    setToggle(false);
+  }
+
+  async function setApiByCategory(target) {
+    const URL_FOOD_NAME = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.id}`;
+    const URL_DRINK_NAME = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.id}`;
+    let URL = '';
+    let api = '';
+    if (location.pathname === '/comidas') {
+      URL = URL_FOOD_NAME;
+      api = await fetchApi(URL, true);
+    } else {
+      URL = URL_DRINK_NAME;
+      api = await fetchApi(URL, false);
+    }
+    setData(api);
+  }
+
   async function handleClick({ target }) {
     setIsSearchBar(false);
     setToggle(true);
-    let URL = '';
-
     if (nameCategory === target.id && toggle) {
-      let resultApi = [];
-
-      if (location.pathname === '/comidas') {
-        resultApi = await fetchApi('https://www.themealdb.com/api/json/v1/1/filter.php?i', true);
-      } else {
-        resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
-      }
-      setData(resultApi);
-      setToggle(false);
+      setResultApi();
     } else {
-      const URL_FOOD_NAME = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.id}`;
-      const URL_DRINK_NAME = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.id}`;
-      let api = '';
-      if (location.pathname === '/comidas') {
-        URL = URL_FOOD_NAME;
-        api = await fetchApi(URL, true);
-      } else {
-        URL = URL_DRINK_NAME;
-        api = await fetchApi(URL, false);
-      }
-      if (!api) {
-        global.alert('Não existe receita para essa categoria');
-      } else {
-        setData(api || []);
-      }
+      setApiByCategory(target);
     }
     setNameCategory(target.id);
   }
