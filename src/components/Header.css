@@ -6,6 +6,7 @@
     display: flex;
     justify-content: space-around;
     padding: 10px;
+    width: 100%;
   }
 
   .header-container h1 {
@@ -13,10 +14,15 @@
   }
 
   .search-bar-container {
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .input-bar-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    width: 100%;
   }
 
   .search-bar {
@@ -24,4 +30,12 @@
     padding: 10px;
     width: 95%;
   }
+
+  .radios-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    width: 100%;
+  }
+
 }
