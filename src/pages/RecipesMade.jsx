@@ -53,15 +53,24 @@ function RecipesMade() {
       </section>
       <section>
         {doneRecipes
-          .map(({ image, name, category, doneDate, tags }, index) => (<CardRecipesMade
-            key={ index }
-            image={ image }
-            name={ name }
-            category={ category }
-            doneDate={ doneDate }
-            tags={ tags }
-            index={ index }
-          />))}
+          .map(
+            (
+              { image, name, category, doneDate, tags, type, area, alcoholicOrNot },
+              index,
+            ) => (
+              <CardRecipesMade
+                key={ index }
+                image={ image }
+                name={ name }
+                category={ category }
+                doneDate={ doneDate }
+                tags={ tags }
+                index={ index }
+                type={ type }
+                area={ area }
+                alcoholic={ alcoholicOrNot }
+              />),
+          )}
       </section>
     </div>
   );
