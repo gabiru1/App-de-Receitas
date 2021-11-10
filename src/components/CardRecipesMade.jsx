@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const copy = require('clipboard-copy');
 
@@ -7,22 +8,24 @@ function CardRecipesMade(
   { image, index, name, category, doneDate, tags, type, area, alcoholic, id },
 ) {
   function copyToClipBoard() {
-    const currentURL = `${window.location.origin}/comidas/${id}`;
-    copy(currentURL);
+    const urlToCopy = `${window.location.origin}/comidas/${id}`;
+    copy(urlToCopy);
     global.alert('Link copiado!');
   }
 
   return (
     <div>
-      <img
-        src={ image }
-        alt={ name }
-        data-testid={ `${index}-horizontal-image` }
-        width="200px"
-      />
-      <h2 data-testid={ `${index}-horizontal-name` }>
-        {name}
-      </h2>
+      <Link to={ `/${type}s/${id}` }>
+        <img
+          src={ image }
+          alt={ name }
+          data-testid={ `${index}-horizontal-image` }
+          width="200px"
+        />
+        <h2 data-testid={ `${index}-horizontal-name` }>
+          {name}
+        </h2>
+      </Link>
       <h3 data-testid={ `${index}-horizontal-top-text` }>
         {type === 'comida' ? (
           `${area} - ${category}`
