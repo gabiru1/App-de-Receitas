@@ -12,11 +12,8 @@ function DetailsFoodRecipe() {
     console.log(response);
     const ingredientsArray = [];
     const ingredientsValue = Object.values(response[0]);
-    Object.keys(response[0]).forEach((element, index) => {
-      if (element.includes('strIngredient')) {
-        ingredientsArray.push(ingredientsValue[index]);
-      }
-    });
+    Object.keys(response[0]).forEach((element, index) => element.includes('strIngredient')
+      && ingredientsArray.push(ingredientsValue[index]));
     console.log(ingredientsArray);
     setIngredients(ingredientsArray);
     setDetails(response);
@@ -45,10 +42,21 @@ function DetailsFoodRecipe() {
             <input type="checkbox" data-testid="favorite-btn" />
           </label>
           {ingredients.map((ingredient, index) => (
-            <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-              {ingredient}
-            </p>
+            ingredient.length > 0
+            && (
+              <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+                {ingredient}
+              </p>
+            )
           ))}
+          <div>
+            <h3>Modo de preparo</h3>
+            <p data-testid="instructions">{ details[0].strInstructions }</p>
+          </div>
+          <video width="350" height="640" controls data-testid="video">
+            <source src={ details[0].strYoutube } />
+            <track kind="captions" />
+          </video>
         </>
       )}
     </div>
