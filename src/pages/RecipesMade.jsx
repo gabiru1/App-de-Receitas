@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import CardRecipesMade from '../components/CardRecipesMade';
 
@@ -28,6 +28,25 @@ function RecipesMade() {
     },
   ];
 
+  const [filteredData, setFilteredData] = useState(doneRecipes);
+
+  function filterDataByType(type) {
+    switch (type) {
+    case 'comida':
+      setFilteredData(doneRecipes.filter((value) => value.type === type));
+      console.log('comida');
+      break;
+    case 'bebida':
+      setFilteredData(doneRecipes.filter((value) => value.type === type));
+      console.log('bebida');
+      break;
+    default:
+      setFilteredData(doneRecipes);
+      console.log('all');
+      break;
+    }
+  }
+
   return (
     <div>
       <Header title="Receitas Feitas" showSearchBtn={ false } />
@@ -35,24 +54,27 @@ function RecipesMade() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          onClick={ filterDataByType }
         >
           All
         </button>
         <button
           type="button"
           data-testid="filter-by-food-btn"
+          onClick={ () => filterDataByType('comida') }
         >
           Food
         </button>
         <button
           type="button"
           data-testid="filter-by-drink-btn"
+          onClick={ () => filterDataByType('bebida') }
         >
           Drinks
         </button>
       </section>
       <section>
-        {doneRecipes
+        {filteredData
           .map(
             (
               { image, name, category, doneDate, tags, type, area, alcoholicOrNot, id },
