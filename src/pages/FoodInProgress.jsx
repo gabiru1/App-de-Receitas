@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './FoodInProgress.css';
 
 const meals = [{
   idMeal: '52977',
@@ -86,6 +87,16 @@ function FoodInProgress() {
     setFullIngredient(fullIngredientsArray);
   }
 
+  function handleClick({ target }) {
+    const li = target.parentNode;
+
+    if (li.className === 'checked') {
+      li.classList = '';
+    } else {
+      li.classList = 'checked';
+    }
+  }
+
   useEffect(() => {
     getFullIngredients();
   }, []);
@@ -105,8 +116,11 @@ function FoodInProgress() {
       <ol>
         { fullIngredient.map((element, index) => (
           <li key={ index } data-testid={ `${index}-ingredient-step` }>
+            <input type="checkbox" id={ index } onClick={ (event) => handleClick(event) } />
+            {' '}
             {element}
-          </li>))}
+          </li>
+        ))}
       </ol>
       <div data-testid="instructions">
         {meals[0].strInstructions }
