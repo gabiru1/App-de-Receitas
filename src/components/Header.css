@@ -38,4 +38,9 @@
     width: 100%;
   }
 
+  .search-btn {
+    background: none;
+    border: none;
+  }
+
 }

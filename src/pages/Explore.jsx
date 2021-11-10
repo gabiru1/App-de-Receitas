@@ -7,7 +7,7 @@ function Explore({ history }) {
   return (
     <div>
       <Header title="Explorar" showSearchBtn={ false } />
-      <div>
+      <div className="container-buttons-explore">
         <button
           type="button"
           data-testid="explore-food"
