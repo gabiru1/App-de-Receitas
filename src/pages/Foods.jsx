@@ -4,6 +4,7 @@ import Card from '../components/Card';
 import CategoryButtons from '../components/CategoryButtons';
 import Header from '../components/Header';
 import RecipesContext from '../Context/RecipesContext';
+import Footer from '../components/Footer';
 import {
   fetchApi, fetchApiByFirstLetter,
   fetchApiByIngredient, fetchApiByName,
@@ -79,6 +80,7 @@ function Foods() {
               />
             )))}
       </div>
+      <Footer />
     </div>
   );
 }
