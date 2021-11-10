@@ -31,6 +31,17 @@ export async function fetchApiByFirstLetter(primeiraLetra, food) {
   return result;
 }
 
+export async function fetchApiByID(id, food) {
+  if (food) {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const result = await response.json();
+    return result.meals;
+  }
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const result = await response.json();
+  return result.drinks;
+}
+
 export async function fetchApi(url, food) {
   const response = await fetch(url);
   const resolve = await response.json();

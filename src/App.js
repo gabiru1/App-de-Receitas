@@ -34,7 +34,7 @@ function App() {
         <Route path="/bebidas/{id-da-receita}" component={ DetailsDrinkRecipe } />
         <Route exact path="/bebidas" component={ Drink } />
         <Route path="/comidas/{id-da-receita}/in-progress" component={ FoodInProgress } />
-        <Route path="/comidas/{id-da-receita}" component={ DetailsFoodRecipe } />
+        <Route path="/comidas/:recipeId" component={ DetailsFoodRecipe } />
         <Route exact path="/comidas" component={ Foods } />
         <Route
           path="/explorar/comidas/ingredientes"
