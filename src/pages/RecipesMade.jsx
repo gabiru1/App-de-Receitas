@@ -55,7 +55,7 @@ function RecipesMade() {
         {doneRecipes
           .map(
             (
-              { image, name, category, doneDate, tags, type, area, alcoholicOrNot },
+              { image, name, category, doneDate, tags, type, area, alcoholicOrNot, id },
               index,
             ) => (
               <CardRecipesMade
@@ -69,6 +69,7 @@ function RecipesMade() {
                 type={ type }
                 area={ area }
                 alcoholic={ alcoholicOrNot }
+                id={ id }
               />),
           )}
       </section>

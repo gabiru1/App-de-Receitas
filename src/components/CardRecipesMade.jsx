@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+const copy = require('clipboard-copy');
+
 function CardRecipesMade(
-  { image, index, name, category, doneDate, tags, type, area, alcoholic },
+  { image, index, name, category, doneDate, tags, type, area, alcoholic, id },
 ) {
+  function copyToClipBoard() {
+    const currentURL = `${window.location.origin}/comidas/${id}`;
+    copy(currentURL);
+    global.alert('Link copiado!');
+  }
+
   return (
     <div>
       <img
@@ -40,6 +48,7 @@ function CardRecipesMade(
         data-testid={ `${index}-horizontal-share-btn` }
         src="src/images/shareIcon.svg"
         width="10px"
+        onClick={ copyToClipBoard }
       >
         Compartilhar
       </button>
@@ -57,6 +66,7 @@ CardRecipesMade.defaultProps = {
   type: '',
   area: '',
   alcoholic: '',
+  id: '',
 };
 
 CardRecipesMade.propTypes = {
@@ -68,6 +78,7 @@ CardRecipesMade.propTypes = {
   type: PropTypes.string,
   area: PropTypes.string,
   alcoholic: PropTypes.string,
+  id: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
 };
 
