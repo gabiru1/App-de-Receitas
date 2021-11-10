@@ -18,7 +18,7 @@ function ExploreFood({ history }) {
   return (
     <div>
       <Header title="Explorar Comidas" showSearchBtn={ false } />
-      <div>
+      <div className="container-buttons-explore">
         <button
           type="button"
           data-testid="explore-by-ingredient"

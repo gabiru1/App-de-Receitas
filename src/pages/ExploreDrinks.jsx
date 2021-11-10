@@ -19,7 +19,7 @@ function ExploreDrinks({ history }) {
   return (
     <div>
       <Header title="Explorar Bebidas" showSearchBtn={ false } />
-      <div>
+      <div className="container-buttons-explore">
         <button
           type="button"
           data-testid="explore-by-ingredient"
