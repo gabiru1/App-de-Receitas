@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../Context/RecipesContext';
+import Card from '../components/Card';
 import { fetchApiByFirstLetter,
-  fetchApiByIngredient, fetchApiByName } from '../services/FetchApi';
+  fetchApiByIngredient, fetchApiByName, fetchApi } from '../services/FetchApi';
+import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
   const { radioValue } = useContext(RecipesContext);
@@ -12,6 +14,14 @@ function Drinks() {
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
+
+  async function setInitialData() {
+    const resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
+    setData(resultApi);
+  }
+  useEffect(() => {
+    setInitialData();
+  }, []);
 
   async function handleClick() {
     switch (radioValue) {
@@ -53,27 +63,18 @@ function Drinks() {
   return (
     <div>
       <Header title="Bebidas" showSearchBtn handleClick={ handleClick } />
+      <CategoryButtons />
       <div className="card-container">
         {(data.length === 1) ? (<Redirect to={ `/bebidas/${data[0].idDrink}` } />) : (
           data.slice(0, maxResults).map(({ idDrink, strDrink, strDrinkThumb }, index) => (
-            <div
+            <Card
               key={ idDrink }
-              data-testid={ `${index}-recipe-card` }
-              className="card"
-            >
-              <img
-                src={ strDrinkThumb }
-                alt={ strDrink }
-                data-testid={ `${index}-card-img` }
-                className="card-image"
-              />
-              <h3
-                data-testid={ `${index}-card-name` }
-                className="card-title"
-              >
-                { strDrink }
-              </h3>
-            </div>
+              src={ strDrinkThumb }
+              name={ strDrink }
+              dataTesteID={ index }
+              id={ idDrink }
+              path="bebidas"
+            />
           )))}
       </div>
       <Footer />
