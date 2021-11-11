@@ -66,7 +66,7 @@ function CategoryButtons() {
   }, []);
 
   return (
-    <div>
+    <div className="container-buttons-filter">
       <button
         type="button"
         onClick={ setResultApi }
