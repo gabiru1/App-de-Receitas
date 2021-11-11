@@ -57,6 +57,8 @@ function DetailsFoodRecipe() {
             <source src={ details[0].strYoutube } />
             <track kind="captions" />
           </video>
+          <p data-testid={ `${'index'}-recomendation-card` }>Receitas recomendadas</p>
+          <button type="button" data-testid="start-recipe-btn">Iniciar Receita</button>
         </>
       )}
     </div>
