@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import './FoodInProgress.css';
 
@@ -55,11 +56,14 @@ const meals = [{
   dateModified: null,
 },
 ];
-const ingredientsValue = Object.values(meals[0]);
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
   const [checked, setChecked] = useState(0);
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [getLocal, setLocal] = useState([]);
+  const ingredientsValue = Object.values(meals[0]);
+
   function getIngredients() {
     const ingredientsArray = [];
     Object.keys(meals[0]).forEach((element, index) => element.includes('strIngredient')
@@ -74,56 +78,55 @@ function FoodInProgress({ history }) {
     return amountIngredientsArray;
   }
 
-  async function getFullIngredients() {
+  function getFullIngredients() {
     const ingredients = getIngredients();
     const amountIngredients = getAmountIngredients();
 
     const fullIngredientsArray = [];
     for (let index = 0; index < ingredients.length; index += 1) {
       if (ingredients[index] !== '' && amountIngredients[index] !== '') {
-        fullIngredientsArray.push(amountIngredients[index] + ingredients[index]);
+        fullIngredientsArray.push(`${amountIngredients[index]} ${ingredients[index]}`);
       }
     }
     setFullIngredient(fullIngredientsArray);
   }
 
-  function handleClick({ target }) {
-    console.log(target.checked);
+  function countChecked(target) {
+    return target.checked ? setChecked(checked + 1) : setChecked(checked - 1);
+  }
+
+  function setClassNameChecked(target) {
     const li = target.parentNode;
-    const { id } = target;
+    const classNameChecked = li.className === 'checked'
+      ? li.classList = ''
+      : li.classList = 'checked';
+    return classNameChecked;
+  }
 
-    if (target.checked) {
-      setChecked(checked + 1);
-    } else {
-      setChecked(checked - 1);
+  function abc() {
+    const exist = localStorage.getItem('inProgressRecipes');
+    console.log(exist);
+    if (exist) {
+      const json = JSON.parse(exist);
+      const value = (Object.values(json.meals));
+      setLocal(value[0]);
     }
+  }
 
-    console.log(checked);
-    if (li.className === 'checked') {
-      li.classList = '';
-    } else {
-      li.classList = 'checked';
-    }
+  function handleClick({ target }) {
+    countChecked(target);
+    setClassNameChecked(target);
+    setIngredientsList([...ingredientsList, target.name]);
+    const id = meals[0].idMeal;
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ meals:
+      { [id]: [...ingredientsList, target.name] } }));
   }
 
   useEffect(() => {
     getFullIngredients();
-    return () => {
-      console.log('desmontou');
-    };
+    abc();
   }, []);
 
-  useEffect(() => () => {
-    console.log('desmontou');
-    // const id = meals[0].idMeal;
-    // localStorage.setItem('inProgressRecipes', JSON.stringify({ meals: { [id]: [fullIngredient] } }));
-  }, []);
-
-  // function hancleChecked() {
-  // const isEnable = checked.filter((el) => el === 'checked').length !== fullIngredient.length;
-  //  console.log(isEnable, 'aqui');
-  // return isEnable;
-  // }
   function handleFinish() {
     history.push('/receitas-feitas');
   }
@@ -143,7 +146,13 @@ function FoodInProgress({ history }) {
       <ol>
         { fullIngredient.map((element, index) => (
           <li key={ index } data-testid={ `${index}-ingredient-step` }>
-            <input type="checkbox" id={ index } onClick={ (event) => handleClick(event) } />
+            <input
+              defaultChecked={ getLocal.some((jose) => element === jose) }
+              type="checkbox"
+              name={ element }
+              id={ index }
+              onClick={ (event) => handleClick(event) }
+            />
             {' '}
             {element}
           </li>
@@ -154,9 +163,22 @@ function FoodInProgress({ history }) {
       </div>
       <button type="button" data-testid="share-btn">compartilhar</button>
       <button type="button" data-testid="favorite-btn">favoritar</button>
-      <button type="button" data-testid="finish-recipe-btn" onClick={ handleFinish } disabled={ checked !== fullIngredient.length }> finalizar</button>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        onClick={ handleFinish }
+        disabled={ checked !== fullIngredient.length }
+      >
+        finalizar
+      </button>
     </div>
   );
 }
+
+FoodInProgress.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default FoodInProgress;
