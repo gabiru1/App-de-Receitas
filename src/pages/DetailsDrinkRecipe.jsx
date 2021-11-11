@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { fetchApiByID } from '../services/FetchApi';
 
 function DetaisDrinkRecipe() {
@@ -51,13 +52,15 @@ function DetaisDrinkRecipe() {
             <p data-testid="instructions">{ details[0].strInstructions }</p>
           </div>
           <p data-testid={ `${'index'}-recomendation-card` }>Receitas recomendadas</p>
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="Footer"
-          >
-            Iniciar Receita
-          </button>
+          <Link to={ `/bebidas/${recipeId}/in-progress` }>
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="Footer"
+            >
+              Iniciar Receita
+            </button>
+          </Link>
         </>
       )}
     </div>
