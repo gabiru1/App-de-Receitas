@@ -127,6 +127,7 @@ function FoodInProgress({ history }) {
   function handleFinish() {
     history.push('/receitas-feitas');
   }
+
   return (
     <div>
       <img
