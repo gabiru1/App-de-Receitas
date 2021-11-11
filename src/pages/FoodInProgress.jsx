@@ -59,7 +59,7 @@ const ingredientsValue = Object.values(meals[0]);
 
 function FoodInProgress() {
   const [fullIngredient, setFullIngredient] = useState([]);
-
+  const [checked, setChecked] = useState(0);
   function getIngredients() {
     const ingredientsArray = [];
     Object.keys(meals[0]).forEach((element, index) => element.includes('strIngredient')
@@ -88,8 +88,17 @@ function FoodInProgress() {
   }
 
   function handleClick({ target }) {
+    console.log(target.checked);
     const li = target.parentNode;
+    const { id } = target;
 
+    if (target.checked) {
+      setChecked(checked + 1);
+    } else {
+      setChecked(checked - 1);
+    }
+
+    console.log(checked);
     if (li.className === 'checked') {
       li.classList = '';
     } else {
@@ -99,8 +108,23 @@ function FoodInProgress() {
 
   useEffect(() => {
     getFullIngredients();
+    return () => {
+      console.log('desmontou');
+    };
   }, []);
-  console.log(fullIngredient);
+
+  useEffect(() => () => {
+    console.log('desmontou');
+    // const id = meals[0].idMeal;
+    // localStorage.setItem('inProgressRecipes', JSON.stringify({ meals: { [id]: [fullIngredient] } }));
+  }, []);
+
+  // function hancleChecked() {
+  // const isEnable = checked.filter((el) => el === 'checked').length !== fullIngredient.length;
+  //  console.log(isEnable, 'aqui');
+  // return isEnable;
+  // }
+  console.log(fullIngredient.length === checked, 'aqui');
   return (
     <div>
       <img
@@ -127,7 +151,7 @@ function FoodInProgress() {
       </div>
       <button type="button" data-testid="share-btn">compartilhar</button>
       <button type="button" data-testid="favorite-btn">favoritar</button>
-      <button type="button" data-testid="finish-recipe-btn"> finalizar</button>
+      <button type="button" data-testid="finish-recipe-btn" disabled={ checked !== fullIngredient.length }> finalizar</button>
     </div>
   );
 }
