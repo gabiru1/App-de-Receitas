@@ -7,16 +7,22 @@ function DetailsFoodRecipe() {
   const [ingredients, setIngredients] = useState([]);
   const { recipeId } = useParams();
 
+  function getVideoId(data) {
+    const EXCLUDE_HTTP = 32;
+    const videoId = data[0].strYoutube.slice(EXCLUDE_HTTP);
+    console.log(videoId, 'id');
+    return videoId;
+  }
+
   async function fetchDetails() {
     const response = await fetchApiByID(recipeId, true);
-    console.log(response);
     const ingredientsArray = [];
     const ingredientsValue = Object.values(response[0]);
     Object.keys(response[0]).forEach((element, index) => element.includes('strIngredient')
       && ingredientsArray.push(ingredientsValue[index]));
-    console.log(ingredientsArray);
     setIngredients(ingredientsArray);
     setDetails(response);
+    getVideoId(response);
   }
 
   useEffect(() => {
@@ -42,7 +48,7 @@ function DetailsFoodRecipe() {
             <input type="checkbox" data-testid="favorite-btn" />
           </label>
           {ingredients.map((ingredient, index) => (
-            ingredient.length > 0
+            (ingredient !== '' && ingredient !== null)
             && (
               <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
                 {ingredient}
@@ -53,12 +59,27 @@ function DetailsFoodRecipe() {
             <h3>Modo de preparo</h3>
             <p data-testid="instructions">{ details[0].strInstructions }</p>
           </div>
-          <video width="350" height="640" controls data-testid="video">
-            <source src={ details[0].strYoutube } />
-            <track kind="captions" />
-          </video>
+          <div className="video-responsive">
+            <iframe
+              data-testid="video"
+              width="360"
+              height="360"
+              src={ `https://www.youtube.com/embed/${getVideoId(details)}` }
+              frameBorder="0"
+              allow={ `accelerometer; autoplay; clipboard-write;
+              encrypted-media; gyroscope; picture-in-picture` }
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
           <p data-testid={ `${'index'}-recomendation-card` }>Receitas recomendadas</p>
-          <button type="button" data-testid="start-recipe-btn">Iniciar Receita</button>
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="Footer"
+          >
+            Iniciar Receita
+          </button>
         </>
       )}
     </div>

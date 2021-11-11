@@ -9,7 +9,7 @@ import { fetchApiByFirstLetter,
 import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
-  const { radioValue } = useContext(RecipesContext);
+  const { radioValue, setInitialDrinks } = useContext(RecipesContext);
   const { searchValue, setSearchValue, data, setData } = useContext(RecipesContext);
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
@@ -18,6 +18,7 @@ function Drinks() {
   async function setInitialData() {
     const resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
     setData(resultApi);
+    setInitialDrinks(resultApi);
   }
   useEffect(() => {
     setInitialData();

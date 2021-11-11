@@ -7,6 +7,8 @@ function RecipesProvider({ children }) {
   const [radioValue, setRadioValue] = useState('');
   const [isSearchBar, setIsSearchBar] = useState(false);
   const [data, setData] = useState([]);
+  const [initialFoods, setInitialFoods] = useState([]);
+  const [initialDrinks, setInitialDrinks] = useState([]);
 
   const contextValue = {
     searchValue,
@@ -17,6 +19,10 @@ function RecipesProvider({ children }) {
     setData,
     isSearchBar,
     setIsSearchBar,
+    initialDrinks,
+    setInitialDrinks,
+    initialFoods,
+    setInitialFoods,
   };
   return (
     <RecipesContext.Provider value={ contextValue }>
