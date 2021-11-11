@@ -7,7 +7,7 @@ import exploreIcon from '../images/exploreIcon.svg';
 function Footer() {
   return (
 
-    <footer className="Footer" data-testid="footer">
+    <footer className="footer" data-testid="footer">
       <Link to="/explorar">
         <button type="button" data-testid="explore-bottom-btn" src={ exploreIcon }>
           <img src={ exploreIcon } alt="Explore Icon" />
