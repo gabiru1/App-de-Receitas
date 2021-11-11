@@ -57,7 +57,7 @@ const meals = [{
 ];
 const ingredientsValue = Object.values(meals[0]);
 
-function FoodInProgress() {
+function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
   const [checked, setChecked] = useState(0);
   function getIngredients() {
@@ -124,7 +124,9 @@ function FoodInProgress() {
   //  console.log(isEnable, 'aqui');
   // return isEnable;
   // }
-  console.log(fullIngredient.length === checked, 'aqui');
+  function handleFinish() {
+    history.push('/receitas-feitas');
+  }
   return (
     <div>
       <img
@@ -151,7 +153,7 @@ function FoodInProgress() {
       </div>
       <button type="button" data-testid="share-btn">compartilhar</button>
       <button type="button" data-testid="favorite-btn">favoritar</button>
-      <button type="button" data-testid="finish-recipe-btn" disabled={ checked !== fullIngredient.length }> finalizar</button>
+      <button type="button" data-testid="finish-recipe-btn" onClick={ handleFinish } disabled={ checked !== fullIngredient.length }> finalizar</button>
     </div>
   );
 }
