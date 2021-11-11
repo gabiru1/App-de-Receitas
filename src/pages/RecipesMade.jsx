@@ -34,15 +34,12 @@ function RecipesMade() {
     switch (type) {
     case 'comida':
       setFilteredData(doneRecipes.filter((value) => value.type === type));
-      console.log('comida');
       break;
     case 'bebida':
       setFilteredData(doneRecipes.filter((value) => value.type === type));
-      console.log('bebida');
       break;
     default:
       setFilteredData(doneRecipes);
-      console.log('all');
       break;
     }
   }

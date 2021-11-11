@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const copy = require('clipboard-copy');
@@ -7,10 +8,26 @@ const copy = require('clipboard-copy');
 function CardRecipesMade(
   { image, index, name, category, doneDate, tags, type, area, alcoholic, id },
 ) {
+  const [showAlert, setShowAlert] = useState(false);
+
+  function closeAlert() {
+    const timeToClose = 500;
+    setTimeout(() => {
+      setShowAlert(false);
+    }, timeToClose);
+  }
   function copyToClipBoard() {
     const urlToCopy = `${window.location.origin}/comidas/${id}`;
-    copy(urlToCopy);
-    global.alert('Link copiado!');
+    const copyUrl = copy(urlToCopy).catch((error) => console.log(error, copyUrl));
+    setShowAlert(true);
+    closeAlert();
+  }
+
+  function createAlert() {
+    return (
+      <div>
+        <Alert variant="success">Link copiado!</Alert>
+      </div>);
   }
 
   return (
@@ -46,6 +63,7 @@ function CardRecipesMade(
           </h3>
         ))}
       </div>
+      {showAlert && createAlert()}
       <button
         type="button"
         data-testid={ `${index}-horizontal-share-btn` }
