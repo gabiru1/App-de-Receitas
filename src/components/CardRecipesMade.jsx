@@ -11,7 +11,7 @@ function CardRecipesMade(
   const [showAlert, setShowAlert] = useState(false);
 
   function closeAlert() {
-    const timeToClose = 500;
+    const timeToClose = 1000;
     setTimeout(() => {
       setShowAlert(false);
     }, timeToClose);
