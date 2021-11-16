@@ -23,6 +23,7 @@ function ExploreDrinksByIngredient() {
       <div className="card-container">
         { ingredientsList.slice(0, maxResults).map(({ strIngredient1 }, index) => (
           <CardIngredients
+            path="/bebidas"
             key={ strIngredient1 }
             imgUrl={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
             ingredient={ strIngredient1 }
