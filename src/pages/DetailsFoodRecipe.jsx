@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { fetchApiByID } from '../services/FetchApi';
+import Card from '../components/Card';
+import { fetchApiByID, fetchApiByName } from '../services/FetchApi';
 
 function DetailsFoodRecipe() {
   const [details, setDetails] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [recommended, setRecommended] = useState([]);
   const { recipeId } = useParams();
 
   function getVideoId(data) {
@@ -16,11 +18,13 @@ function DetailsFoodRecipe() {
 
   async function fetchDetails() {
     const response = await fetchApiByID(recipeId, true);
+    const recommendedResponse = await fetchApiByName('', false);
     const ingredientsArray = [];
     const ingredientsValue = Object.values(response[0]);
     Object.keys(response[0]).forEach((element, index) => element.includes('strIngredient')
       && ingredientsArray.push(ingredientsValue[index]));
     setIngredients(ingredientsArray);
+    setRecommended(recommendedResponse);
     setDetails(response);
     getVideoId(response);
   }
@@ -28,6 +32,8 @@ function DetailsFoodRecipe() {
   useEffect(() => {
     fetchDetails();
   }, []);
+
+  const MAX_RECOMMENDED = 6;
 
   return (
     <div>
@@ -72,7 +78,19 @@ function DetailsFoodRecipe() {
               title="Embedded youtube"
             />
           </div>
-          <p data-testid={ `${'index'}-recomendation-card` }>Receitas recomendadas</p>
+          <div>
+            <h3>Bebidas Recomendadas</h3>
+            {recommended.drinks.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
+              <Card
+                key={ index }
+                data-testid={ `${index}-recomendation-card` }
+                src={ recipe.strDrinkThumb }
+                name={ recipe.strDrink }
+                id={ recipe.idDrink }
+                path="bebidas"
+              />
+            ))}
+          </div>
           <button
             type="button"
             data-testid="start-recipe-btn"
