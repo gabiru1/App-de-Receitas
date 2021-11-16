@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -111,13 +112,15 @@ function DetailsFoodRecipe() {
               ))}
             </Slider>
           </div>
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="Footer"
-          >
-            Iniciar Receita
-          </button>
+          <Link to={ `/comidas/${recipeId}/in-progress` }>
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="Footer"
+            >
+              Iniciar Receita
+            </button>
+          </Link>
         </>
       )}
     </div>
