@@ -58,4 +58,8 @@ code {
     width: 100%;
   }
 
+  .carousel {
+    margin: 10px;
+  }
+
 }

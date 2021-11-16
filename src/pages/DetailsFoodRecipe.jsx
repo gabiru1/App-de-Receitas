@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import Card from '../components/Card';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import CardRecommendedRecipe from '../components/CardRecommendedRecipe';
+import getIngredients from '../helper/helper';
 import { fetchApiByID, fetchApiByName } from '../services/FetchApi';
 
 function DetailsFoodRecipe() {
@@ -16,14 +20,28 @@ function DetailsFoodRecipe() {
     return videoId;
   }
 
+  function getFullIngredients(response) {
+    const fullIngredients = [];
+    const newIngredients = getIngredients(response, 'strIngredient');
+    const amount = getIngredients(response, 'strMeasure');
+
+    newIngredients.forEach((ingredient, index) => {
+      let ingredientAndAmount = '';
+      if (ingredient !== (null || '')) {
+        ingredientAndAmount += ingredient;
+      }
+      if (amount[index] !== (null || '')) {
+        ingredientAndAmount += ` - ${amount[index]}`;
+      }
+      fullIngredients.push(ingredientAndAmount);
+    });
+    return fullIngredients;
+  }
+
   async function fetchDetails() {
     const response = await fetchApiByID(recipeId, true);
     const recommendedResponse = await fetchApiByName('', false);
-    const ingredientsArray = [];
-    const ingredientsValue = Object.values(response[0]);
-    Object.keys(response[0]).forEach((element, index) => element.includes('strIngredient')
-      && ingredientsArray.push(ingredientsValue[index]));
-    setIngredients(ingredientsArray);
+    setIngredients(getFullIngredients(response));
     setRecommended(recommendedResponse);
     setDetails(response);
     getVideoId(response);
@@ -34,6 +52,7 @@ function DetailsFoodRecipe() {
   }, []);
 
   const MAX_RECOMMENDED = 6;
+  const settings = { slidesToShow: 2, infinite: false };
 
   return (
     <div>
@@ -54,13 +73,11 @@ function DetailsFoodRecipe() {
             <input type="checkbox" data-testid="favorite-btn" />
           </label>
           {ingredients.map((ingredient, index) => (
-            (ingredient !== '' && ingredient !== null)
-            && (
+            (ingredient !== ' -  ') && (
               <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
                 {ingredient}
               </p>
-            )
-          ))}
+            )))}
           <div>
             <h3>Modo de preparo</h3>
             <p data-testid="instructions">{ details[0].strInstructions }</p>
@@ -78,18 +95,21 @@ function DetailsFoodRecipe() {
               title="Embedded youtube"
             />
           </div>
-          <div>
+          <div className="carousel">
             <h3>Bebidas Recomendadas</h3>
-            {recommended.drinks.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
-              <Card
-                key={ index }
-                data-testid={ `${index}-recomendation-card` }
-                src={ recipe.strDrinkThumb }
-                name={ recipe.strDrink }
-                id={ recipe.idDrink }
-                path="bebidas"
-              />
-            ))}
+            <Slider { ...settings }>
+              {recommended.drinks.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
+                <CardRecommendedRecipe
+                  key={ index }
+                  alcoholic={ recipe.strAlcoholic }
+                  dataTesteID={ index }
+                  src={ recipe.strDrinkThumb }
+                  name={ recipe.strDrink }
+                  id={ recipe.idDrink }
+                  path={ `/bebidas/${recipe.idDrink}` }
+                />
+              ))}
+            </Slider>
           </div>
           <button
             type="button"
