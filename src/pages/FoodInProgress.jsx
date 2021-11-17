@@ -90,18 +90,6 @@ function FoodInProgress({ history }) {
     getFullIngredients();
   }, [keysObj]);
 
-  /* [{
-    id: id-da-receita,
-    type: comida-ou-bebida,
-    area: area-da-receita-ou-texto-vazio,
-    category: categoria-da-receita-ou-texto-vazio,
-    alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
-    name: nome-da-receita,
-    image: imagem-da-receita,
-    doneDate: quando-a-receita-foi-concluida,
-    tags: array-de-tags-da-receita-ou-array-vazio
-}] */
-
   function getDate() {
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
@@ -112,7 +100,11 @@ function FoodInProgress({ history }) {
   }
 
   function handleFinish() {
-    const exist = localStorage.getItem('doneRecipe');
+    const exist = localStorage.getItem('doneRecipes');
+    let tags = [];
+    if (!recipe.strTags === ('' || null)) {
+      tags = recipe.strTags;
+    }
     const doneRecipe = {
       id: recipeId,
       type: 'comida',
@@ -122,13 +114,13 @@ function FoodInProgress({ history }) {
       name: recipe.strMeal,
       image: recipe.strMealThumb,
       doneDate: getDate(),
-      tags: recipe.strTags,
+      tags,
     };
     if (exist) {
       const json = JSON.parse(exist);
-      localStorage.setItem('doneRecipe', JSON.stringify([...json, doneRecipe]));
+      localStorage.setItem('doneRecipes', JSON.stringify([...json, doneRecipe]));
       console.log(json, 'aqui papai');
-    } else localStorage.setItem('doneRecipe', JSON.stringify([doneRecipe]));
+    } else localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
 
