@@ -61,7 +61,11 @@ code {
     position: fixed;
     width: 100%;
   }
+  .carousel {
+    margin: 10px;
+  }
 
+}
   .container-buttons-explore {
     display: flex;
     flex-direction: column;
