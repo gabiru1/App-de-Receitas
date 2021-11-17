@@ -9,8 +9,8 @@ import { fetchApiByFirstLetter,
 import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
-  const { searchValue, setSearchValue, isSearchBar, setIsSearchBar,
-    data, setData, renderData, radioValue } = useContext(RecipesContext);
+  const { setInitialDrinks, searchValue, setSearchValue, isSearchBar,
+         setIsSearchBar, data, setData, renderData, radioValue } = useContext(RecipesContext);
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
@@ -18,6 +18,7 @@ function Drinks() {
   async function setInitialData() {
     const resultApi = await fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', false);
     setData(resultApi);
+    setInitialDrinks(resultApi);
   }
   useEffect(() => {
     if (renderData) {
