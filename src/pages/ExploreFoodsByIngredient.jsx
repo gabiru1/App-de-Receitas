@@ -7,7 +7,7 @@ import { fetchApiIngredientsList, fetchApiByIngredient } from '../services/Fetch
 
 function ExploreFoodsByIngredient() {
   const [ingredientsList, setIngredientsList] = useState([]);
-  const { setData } = useContext(RecipesContext);
+  const { setData, setRenderData } = useContext(RecipesContext);
   const maxResults = 12;
 
   async function getIngredientsList() {
@@ -22,6 +22,7 @@ function ExploreFoodsByIngredient() {
 
   useEffect(() => {
     getIngredientsList();
+    setRenderData(false);
   }, []);
 
   return (

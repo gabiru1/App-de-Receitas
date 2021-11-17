@@ -9,8 +9,8 @@ import { fetchApiByFirstLetter,
 import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
-  const { radioValue } = useContext(RecipesContext);
-  const { searchValue, setSearchValue, data, setData } = useContext(RecipesContext);
+  const { searchValue, setSearchValue, isSearchBar, setIsSearchBar,
+    data, setData, renderData, radioValue } = useContext(RecipesContext);
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
@@ -20,27 +20,30 @@ function Drinks() {
     setData(resultApi);
   }
   useEffect(() => {
-    setInitialData();
+    if (renderData) {
+      setInitialData();
+    }
   }, []);
 
+  function sendAlert(apiResult) {
+    if (!apiResult.meals) {
+      global.alert(MESSAGE);
+    }
+  }
+
   async function handleClick() {
+    setIsSearchBar(true);
     switch (radioValue) {
     case 'ingrediente':
       results = await fetchApiByIngredient(searchValue);
-      if (!results.drinks) {
-        global.alert(MESSAGE);
-        break;
-      }
-      setData(results.drinks);
+      sendAlert(results);
+      setData(results.drinks || []);
       setSearchValue('');
       break;
     case 'nome':
       results = await fetchApiByName(searchValue);
-      if (!results.drinks) {
-        global.alert(MESSAGE);
-        break;
-      }
-      setData(results.drinks);
+      sendAlert(results);
+      setData(results.drinks || []);
       setSearchValue('');
       break;
     case 'primeira-letra':
@@ -49,11 +52,8 @@ function Drinks() {
         break;
       }
       results = await fetchApiByFirstLetter(searchValue);
-      if (!results.drinks) {
-        global.alert(MESSAGE);
-        break;
-      }
-      setData(results.drinks);
+      sendAlert(results);
+      setData(results.drinks || []);
       setSearchValue('');
       break;
     default:
@@ -65,17 +65,19 @@ function Drinks() {
       <Header title="Bebidas" showSearchBtn handleClick={ handleClick } />
       <CategoryButtons />
       <div className="card-container">
-        {(data.length === 1) ? (<Redirect to={ `/bebidas/${data[0].idDrink}` } />) : (
-          data.slice(0, maxResults).map(({ idDrink, strDrink, strDrinkThumb }, index) => (
-            <Card
-              key={ idDrink }
-              src={ strDrinkThumb }
-              name={ strDrink }
-              dataTesteID={ index }
-              id={ idDrink }
-              path="bebidas"
-            />
-          )))}
+        {(data.length === 1 && isSearchBar)
+          ? (<Redirect to={ `/bebidas/${data[0].idDrink}` } />) : (
+            data.slice(0, maxResults)
+              .map(({ idDrink, strDrink, strDrinkThumb }, index) => (
+                <Card
+                  key={ idDrink }
+                  src={ strDrinkThumb }
+                  name={ strDrink }
+                  dataTesteID={ index }
+                  id={ idDrink }
+                  path="bebidas"
+                />
+              )))}
       </div>
       <Footer />
     </div>

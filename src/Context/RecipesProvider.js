@@ -7,6 +7,7 @@ function RecipesProvider({ children }) {
   const [radioValue, setRadioValue] = useState('');
   const [isSearchBar, setIsSearchBar] = useState(false);
   const [data, setData] = useState([]);
+  const [renderData, setRenderData] = useState(true);
 
   const contextValue = {
     searchValue,
@@ -17,6 +18,8 @@ function RecipesProvider({ children }) {
     setData,
     isSearchBar,
     setIsSearchBar,
+    renderData,
+    setRenderData,
   };
   return (
     <RecipesContext.Provider value={ contextValue }>
