@@ -31,16 +31,9 @@ function RecipesMade() {
   const [filteredData, setFilteredData] = useState(doneRecipes);
 
   function filterDataByType(type) {
-    switch (type) {
-    case 'comida':
-      setFilteredData(doneRecipes.filter((value) => value.type === type));
-      break;
-    case 'bebida':
-      setFilteredData(doneRecipes.filter((value) => value.type === type));
-      break;
-    default:
+    setFilteredData(doneRecipes.filter((value) => value.type === type));
+    if (type === 'all') {
       setFilteredData(doneRecipes);
-      break;
     }
   }
 
@@ -51,7 +44,7 @@ function RecipesMade() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          onClick={ filterDataByType }
+          onClick={ () => filterDataByType('all') }
         >
           All
         </button>
