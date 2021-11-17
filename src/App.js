@@ -28,12 +28,12 @@ function App() {
         <Route path="/receitas-feitas" component={ RecipesMade } />
         <Route path="/receitas-favoritas" component={ FavoritesRecipes } />
         <Route
-          path="/bebidas/{id-da-receita}/in-progress"
+          path="/bebidas/:recipeId/in-progress"
           component={ DrinkInProgress }
         />
         <Route path="/bebidas/{id-da-receita}" component={ DetailsDrinkRecipe } />
         <Route exact path="/bebidas" component={ Drink } />
-        <Route path="/comidas/{id-da-receita}/in-progress" component={ FoodInProgress } />
+        <Route path="/comidas/:recipeId/in-progress" component={ FoodInProgress } />
         <Route path="/comidas/{id-da-receita}" component={ DetailsFoodRecipe } />
         <Route exact path="/comidas" component={ Foods } />
         <Route
