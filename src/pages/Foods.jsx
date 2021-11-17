@@ -11,9 +11,9 @@ import {
 } from '../services/FetchApi';
 
 function Foods() {
-  const { radioValue } = useContext(RecipesContext);
-  const { searchValue, setSearchValue, data,
-    setData, isSearchBar, setIsSearchBar } = useContext(RecipesContext);
+  const { radioValue, searchValue, setSearchValue, data,
+    setData, isSearchBar, setIsSearchBar,
+    renderData } = useContext(RecipesContext);
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
@@ -23,7 +23,9 @@ function Foods() {
     setData(resultApi);
   }
   useEffect(() => {
-    setInitialData();
+    if (renderData) {
+      setInitialData();
+    }
   }, []);
 
   function sendAlert(apiResult) {
