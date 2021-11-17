@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { fetchApiByID } from '../services/FetchApi';
 import './FoodInProgress.css';
+import getIngredients from '../helper/helper';
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
@@ -10,28 +11,11 @@ function FoodInProgress({ history }) {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
   const [recipe, setRecipe] = useState({});
-  const [valuesObj, setValuesObj] = useState([]);
-  const [keysObj, setKeysObj] = useState([]);
   const { recipeId } = useParams();
 
-  function getIngredients() {
-    const ingredientsArray = [];
-    keysObj.forEach((element, index) => element.includes('strIngredient')
-      && ingredientsArray.push(valuesObj[index]));
-    console.log(ingredientsArray, 'oi');
-    return ingredientsArray;
-  }
-
-  function getAmountIngredients() {
-    const amountIngredientsArray = [];
-    keysObj.forEach((element, index) => element.includes('strMeasure')
-    && amountIngredientsArray.push(valuesObj[index]));
-    return amountIngredientsArray;
-  }
-
-  function getFullIngredients() {
-    const ingredients = getIngredients();
-    const amountIngredients = getAmountIngredients();
+  function getFullIngredients(response) {
+    const ingredients = getIngredients(response, 'strIngredient');
+    const amountIngredients = getIngredients(response, 'strMeasure');
     const fullIngredientsArray = [];
     ingredients.forEach((element, index) => {
       let ingredientAndAmount = '';
@@ -45,6 +29,7 @@ function FoodInProgress({ history }) {
       fullIngredientsArray.push(ingredientAndAmount);
     });
     setFullIngredient(fullIngredientsArray.filter((element) => element !== ''));
+    return fullIngredientsArray;
   }
 
   function countChecked(target) {
@@ -76,8 +61,7 @@ function FoodInProgress({ history }) {
 
   async function fetchApi() {
     const response = await fetchApiByID(recipeId, true);
-    setValuesObj(Object.values(response[0]));
-    setKeysObj(Object.keys(response[0]));
+    getFullIngredients(response);
     setRecipe(response[0]);
   }
 
@@ -85,10 +69,6 @@ function FoodInProgress({ history }) {
     fetchApi();
     sendLocalStorage();
   }, []);
-
-  useEffect(() => {
-    getFullIngredients();
-  }, [keysObj]);
 
   function getDate() {
     const data = new Date();
@@ -118,9 +98,8 @@ function FoodInProgress({ history }) {
     };
     if (exist) {
       const json = JSON.parse(exist);
-      localStorage.setItem('doneRecipes', JSON.stringify([...json, doneRecipe]));
-      console.log(json, 'aqui papai');
-    } else localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
+      localStorage.setItem('doneRecipe', JSON.stringify([...json, doneRecipe]));
+    } else localStorage.setItem('doneRecipe', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
 
