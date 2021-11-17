@@ -102,7 +102,33 @@ function FoodInProgress({ history }) {
     tags: array-de-tags-da-receita-ou-array-vazio
 }] */
 
+  function getDate() {
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = `${dia}/${mes}/${ano}`;
+    return dataAtual;
+  }
+
   function handleFinish() {
+    const exist = localStorage.getItem('doneRecipe');
+    const doneRecipe = {
+      id: recipeId,
+      type: 'comida',
+      area: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+      doneDate: getDate(),
+      tags: recipe.strTags,
+    };
+    if (exist) {
+      const json = JSON.parse(exist);
+      localStorage.setItem('doneRecipe', JSON.stringify([...json, doneRecipe]));
+      console.log(json, 'aqui papai');
+    } else localStorage.setItem('doneRecipe', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
 
