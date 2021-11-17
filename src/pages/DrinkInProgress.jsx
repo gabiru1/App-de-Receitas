@@ -54,7 +54,7 @@ function DrinkInProgress({ history }) {
     return target.parentElement.classList.toggle('checked');
   }
 
-  function abc() {
+  function sendLocalStorage() {
     const exist = localStorage.getItem('inProgressRecipes');
     console.log(exist);
     if (exist) {
@@ -83,7 +83,7 @@ function DrinkInProgress({ history }) {
 
   useEffect(() => {
     fetchApi();
-    abc();
+    sendLocalStorage();
   }, []);
 
   useEffect(() => {

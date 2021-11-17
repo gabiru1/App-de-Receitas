@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { fetchApiByID } from '../services/FetchApi';
 import './FoodInProgress.css';
 
 function FoodInProgress({ history }) {
@@ -54,7 +55,7 @@ function FoodInProgress({ history }) {
     return target.parentElement.classList.toggle('checked');
   }
 
-  function abc() {
+  function sendLocalStorage() {
     const exist = localStorage.getItem('inProgressRecipes');
     console.log(exist);
     if (exist) {
@@ -74,22 +75,32 @@ function FoodInProgress({ history }) {
   }
 
   async function fetchApi() {
-    // const idFood = '52772';
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-    const result = await response.json();
-    setValuesObj(Object.values(result.meals[0]));
-    setKeysObj(Object.keys(result.meals[0]));
-    setRecipe(result.meals[0]);
+    const response = await fetchApiByID(recipeId, true);
+    setValuesObj(Object.values(response[0]));
+    setKeysObj(Object.keys(response[0]));
+    setRecipe(response[0]);
   }
 
   useEffect(() => {
     fetchApi();
-    abc();
+    sendLocalStorage();
   }, []);
 
   useEffect(() => {
     getFullIngredients();
   }, [keysObj]);
+
+  /* [{
+    id: id-da-receita,
+    type: comida-ou-bebida,
+    area: area-da-receita-ou-texto-vazio,
+    category: categoria-da-receita-ou-texto-vazio,
+    alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
+    name: nome-da-receita,
+    image: imagem-da-receita,
+    doneDate: quando-a-receita-foi-concluida,
+    tags: array-de-tags-da-receita-ou-array-vazio
+}] */
 
   function handleFinish() {
     history.push('/receitas-feitas');
