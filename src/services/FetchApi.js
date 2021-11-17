@@ -50,3 +50,14 @@ export async function fetchApi(url, food) {
   }
   return resolve.drinks;
 }
+
+export async function fetchApiIngredientsList(food) {
+  if (food) {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+    const result = await response.json();
+    return result.meals;
+  }
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+  const result = await response.json();
+  return result.drinks;
+}

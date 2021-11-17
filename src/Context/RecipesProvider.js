@@ -9,6 +9,7 @@ function RecipesProvider({ children }) {
   const [data, setData] = useState([]);
   const [initialFoods, setInitialFoods] = useState([]);
   const [initialDrinks, setInitialDrinks] = useState([]);
+  const [renderData, setRenderData] = useState(true);
 
   const contextValue = {
     searchValue,
@@ -23,6 +24,8 @@ function RecipesProvider({ children }) {
     setInitialDrinks,
     initialFoods,
     setInitialFoods,
+    renderData,
+    setRenderData,
   };
   return (
     <RecipesContext.Provider value={ contextValue }>

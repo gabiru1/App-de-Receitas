@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './Header.css';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import RecipesContext from '../Context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
@@ -25,13 +24,13 @@ function Header({ title, showSearchBtn, handleClick }) {
         </div>
         <div>
           {showSearchBtn && (
-            <Button
+            <button
               type="button"
-              variant="outline-light"
+              className="search-btn"
               onClick={ () => setShowInputSearch(!showInputSearch) }
             >
               <img data-testid="search-top-btn" src={ searchIcon } alt="Button Search" />
-            </Button>
+            </button>
           )}
         </div>
       </header>
