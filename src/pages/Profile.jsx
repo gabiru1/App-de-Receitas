@@ -11,6 +11,11 @@ function Profile({ history }) {
     setEmail(userEmail);
   }
 
+  function handleLogout() {
+    localStorage.clear();
+    history.push('/');
+  }
+
   useEffect(() => {
     getEmail();
   }, []);
@@ -18,10 +23,10 @@ function Profile({ history }) {
   return (
     <div>
       <Header title="Perfil" showSearchBtn={ false } />
-      <div>
+      <div className="container-profile-email">
         <h2 data-testid="profile-email">{email}</h2>
       </div>
-      <div className="container-buttons-explore">
+      <div className="container-buttons-profile">
         <button
           type="button"
           data-testid="profile-done-btn"
@@ -39,7 +44,7 @@ function Profile({ history }) {
         <button
           type="button"
           data-testid="profile-logout-btn"
-          onClick={ () => history.push('/explorar/bebidas') }
+          onClick={ handleLogout }
         >
           Sair
         </button>
