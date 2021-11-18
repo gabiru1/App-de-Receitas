@@ -91,4 +91,15 @@ code {
     margin: 5px;
   }
 
+  .container-not-found {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 80%;
+  }
+
+  .container-not-found h2 {
+    font-size: xx-large;
+  }
+
 }
