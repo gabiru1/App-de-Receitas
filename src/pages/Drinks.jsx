@@ -10,7 +10,7 @@ import CategoryButtons from '../components/CategoryButtons';
 
 function Drinks() {
   const { setInitialDrinks, searchValue, setSearchValue, isSearchBar,
-         setIsSearchBar, data, setData, renderData, radioValue } = useContext(RecipesContext);
+    setIsSearchBar, data, setData, renderData, radioValue } = useContext(RecipesContext);
   const maxResults = 12;
   const MESSAGE = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
   let results = [];
