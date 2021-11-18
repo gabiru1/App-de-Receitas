@@ -90,7 +90,7 @@ code {
     padding: 5px;
     margin: 5px;
   }
-
+  
   .container-not-found {
     align-items: center;
     display: flex;
@@ -101,7 +101,7 @@ code {
   .container-not-found h2 {
     font-size: xx-large;
   }
-
+  
   .container-profile-email {
     display: flex;
     justify-content: center;
@@ -120,5 +120,4 @@ code {
     height: 60px;
     margin: 5px;
   }
-
 }

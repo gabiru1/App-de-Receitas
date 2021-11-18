@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { fetchApiByID } from '../services/FetchApi';
 import './FoodInProgress.css';
+import getIngredients from '../helper/helper';
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
@@ -9,28 +11,11 @@ function FoodInProgress({ history }) {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
   const [recipe, setRecipe] = useState({});
-  const [valuesObj, setValuesObj] = useState([]);
-  const [keysObj, setKeysObj] = useState([]);
   const { recipeId } = useParams();
 
-  function getIngredients() {
-    const ingredientsArray = [];
-    keysObj.forEach((element, index) => element.includes('strIngredient')
-      && ingredientsArray.push(valuesObj[index]));
-    console.log(ingredientsArray, 'oi');
-    return ingredientsArray;
-  }
-
-  function getAmountIngredients() {
-    const amountIngredientsArray = [];
-    keysObj.forEach((element, index) => element.includes('strMeasure')
-    && amountIngredientsArray.push(valuesObj[index]));
-    return amountIngredientsArray;
-  }
-
-  function getFullIngredients() {
-    const ingredients = getIngredients();
-    const amountIngredients = getAmountIngredients();
+  function getFullIngredients(response) {
+    const ingredients = getIngredients(response, 'strIngredient');
+    const amountIngredients = getIngredients(response, 'strMeasure');
     const fullIngredientsArray = [];
     ingredients.forEach((element, index) => {
       let ingredientAndAmount = '';
@@ -44,6 +29,7 @@ function FoodInProgress({ history }) {
       fullIngredientsArray.push(ingredientAndAmount);
     });
     setFullIngredient(fullIngredientsArray.filter((element) => element !== ''));
+    return fullIngredientsArray;
   }
 
   function countChecked(target) {
@@ -54,7 +40,7 @@ function FoodInProgress({ history }) {
     return target.parentElement.classList.toggle('checked');
   }
 
-  function abc() {
+  function sendLocalStorage() {
     const exist = localStorage.getItem('inProgressRecipes');
     console.log(exist);
     if (exist) {
@@ -74,24 +60,46 @@ function FoodInProgress({ history }) {
   }
 
   async function fetchApi() {
-    // const idFood = '52772';
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-    const result = await response.json();
-    setValuesObj(Object.values(result.meals[0]));
-    setKeysObj(Object.keys(result.meals[0]));
-    setRecipe(result.meals[0]);
+    const response = await fetchApiByID(recipeId, true);
+    getFullIngredients(response);
+    setRecipe(response[0]);
   }
 
   useEffect(() => {
     fetchApi();
-    abc();
+    sendLocalStorage();
   }, []);
 
-  useEffect(() => {
-    getFullIngredients();
-  }, [keysObj]);
+  function getDate() {
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = `${dia}/${mes}/${ano}`;
+    return dataAtual;
+  }
 
   function handleFinish() {
+    const exist = localStorage.getItem('doneRecipes');
+    let tags = [];
+    if (!recipe.strTags === ('' || null)) {
+      tags = recipe.strTags;
+    }
+    const doneRecipe = {
+      id: recipeId,
+      type: 'comida',
+      area: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+      doneDate: getDate(),
+      tags,
+    };
+    if (exist) {
+      const json = JSON.parse(exist);
+      localStorage.setItem('doneRecipe', JSON.stringify([...json, doneRecipe]));
+    } else localStorage.setItem('doneRecipe', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
 
