@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { fetchApi } from '../services/FetchApi';
@@ -20,10 +21,22 @@ function ExploreFoodsByOrigin() {
     setMeals(resultApi);
   }
 
+  async function fetchMealsByOrigem(origem) {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${origem}`);
+    const result = await response.json();
+    return setMeals(result.meals);
+  }
+
   useEffect(() => {
     fetchAreas();
     renderMeals();
   }, []);
+
+  useEffect(() => {
+    if (selectedArea) {
+      fetchMealsByOrigem(selectedArea);
+    }
+  }, [selectedArea]);
 
   return (
     <div>
@@ -48,24 +61,26 @@ function ExploreFoodsByOrigin() {
       </div>
       <div className="card-container">
         {meals.slice(0, maxResults).map(({ idMeal, strMeal, strMealThumb }, index) => (
-          <div
+          <Link
+            to={ `/comidas/${idMeal}` }
             key={ idMeal }
-            data-testid={ `${index}-recipe-card` }
             className="card"
           >
-            <img
-              src={ strMealThumb }
-              alt={ strMeal }
-              data-testid={ `${index}-card-img` }
-              className="card-image"
-            />
-            <h3
-              data-testid={ `${index}-card-name` }
-              className="card-title"
-            >
-              { strMeal }
-            </h3>
-          </div>
+            <div data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ strMealThumb }
+                alt={ strMeal }
+                data-testid={ `${index}-card-img` }
+                className="card-image"
+              />
+              <h3
+                data-testid={ `${index}-card-name` }
+                className="card-title"
+              >
+                { strMeal }
+              </h3>
+            </div>
+          </Link>
         ))}
       </div>
       <Footer />
