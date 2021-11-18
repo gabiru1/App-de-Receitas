@@ -102,4 +102,23 @@ code {
     font-size: xx-large;
   }
 
+  .container-profile-email {
+    display: flex;
+    justify-content: center;
+    margin-top: 40%;
+  }
+
+  .container-buttons-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5%;
+  }
+
+  .container-buttons-profile button {
+    font-size: x-large;
+    height: 60px;
+    margin: 5px;
+  }
+
 }
