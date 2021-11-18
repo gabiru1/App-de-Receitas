@@ -25,14 +25,14 @@ function Profile({ history }) {
         <button
           type="button"
           data-testid="profile-done-btn"
-          onClick={ () => history.push('/explorar/comidas') }
+          onClick={ () => history.push('/receitas-feitas') }
         >
           Receitas Feitas
         </button>
         <button
           type="button"
           data-testid="profile-favorite-btn"
-          onClick={ () => history.push('/explorar/bebidas') }
+          onClick={ () => history.push('/receitas-favoritas') }
         >
           Receitas Favoritas
         </button>
