@@ -21,17 +21,11 @@ function RecipesMade() {
   }, []);
 
   function filterDataByType(type) {
-    switch (type) {
-    case 'comida':
+    if (type !== 'all') {
       setFilteredData(doneRecipes.filter((value) => value.type === type));
-      break;
-    case 'bebida':
-      setFilteredData(doneRecipes.filter((value) => value.type === type));
-      break;
-    default:
-      setFilteredData(doneRecipes);
-      break;
+      return true;
     }
+    setFilteredData(doneRecipes);
   }
 
   return (
@@ -41,7 +35,7 @@ function RecipesMade() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          onClick={ filterDataByType }
+          onClick={ () => filterDataByType('all') }
         >
           All
         </button>
