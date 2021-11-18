@@ -33,7 +33,11 @@ function ExploreFoodsByOrigin() {
   }, []);
 
   useEffect(() => {
-    if (selectedArea) {
+    if (selectedArea === 'All') {
+      renderMeals();
+    }
+
+    if (selectedArea && selectedArea !== 'All') {
       fetchMealsByOrigem(selectedArea);
     }
   }, [selectedArea]);
@@ -48,6 +52,7 @@ function ExploreFoodsByOrigin() {
           value={ selectedArea }
           onChange={ ({ target }) => setSelectedArea(target.value) }
         >
+          <option data-testid="All-option" value="All">All</option>
           {areas.map(({ strArea }) => (
             <option
               data-testid={ `${strArea}-option` }
