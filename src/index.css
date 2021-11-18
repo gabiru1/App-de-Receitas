@@ -65,7 +65,6 @@ code {
     margin: 10px;
   }
 
-}
   .container-buttons-explore {
     display: flex;
     flex-direction: column;
@@ -92,4 +91,4 @@ code {
     margin: 5px;
   }
 
-  }
+}
