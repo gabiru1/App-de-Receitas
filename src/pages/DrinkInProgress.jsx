@@ -20,7 +20,6 @@ function DrinkInProgress({ history }) {
     ingredients.forEach((element, index) => {
       let ingredientAndAmount = '';
       if (element) {
-        console.log(element);
         ingredientAndAmount += element;
       }
       if (amountIngredients[index]) {
@@ -41,11 +40,10 @@ function DrinkInProgress({ history }) {
 
   function sendLocalStorage() {
     const exist = localStorage.getItem('inProgressRecipes');
-    console.log(exist);
     if (exist) {
       const json = JSON.parse(exist);
-      const value = (Object.values(json.drinks));
-      setLocal(value[0]);
+      const value = (Object.values(json.cocktails[recipeId] || []));
+      setLocal(value || []);
     }
   }
 
@@ -54,8 +52,16 @@ function DrinkInProgress({ history }) {
     setClassNameChecked(target);
     setIngredientsList([...ingredientsList, target.name]);
     const id = recipe.idDrink;
-    localStorage.setItem('inProgressRecipes', JSON.stringify({ drinks:
-      { [id]: [...ingredientsList, target.name] } }));
+    const exist = localStorage.getItem('inProgressRecipes');
+    if (exist) {
+      const json = JSON.parse(exist);
+      localStorage.setItem('inProgressRecipes', JSON.stringify({ ...json,
+        cocktails: { ...json.cocktails, [id]: [...ingredientsList, target.name] } }));
+      return;
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {
+      [id]: [...ingredientsList, target.name] },
+    meals: { } }));
   }
 
   async function fetchApi() {
@@ -95,13 +101,14 @@ function DrinkInProgress({ history }) {
       doneDate: getDate(),
       tags,
     };
+
     if (exist) {
       const json = JSON.parse(exist);
       localStorage.setItem('doneRecipes', JSON.stringify([...json, doneRecipe]));
-      console.log(json, 'aqui papai');
     } else localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
+
   return (
     <div>
       <img
@@ -118,7 +125,8 @@ function DrinkInProgress({ history }) {
         { (fullIngredient.map((element, index) => (
           <li key={ index } data-testid={ `${index}-ingredient-step` }>
             <input
-              defaultChecked={ getLocal.some((jose) => element === jose) }
+              defaultChecked={ getLocal
+                .some((currentRecipe) => element === currentRecipe) }
               type="checkbox"
               name={ element }
               id={ index }

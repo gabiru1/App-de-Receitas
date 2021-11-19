@@ -42,11 +42,12 @@ function FoodInProgress({ history }) {
 
   function sendLocalStorage() {
     const exist = localStorage.getItem('inProgressRecipes');
-    console.log(exist);
     if (exist) {
       const json = JSON.parse(exist);
-      const value = (Object.values(json.meals));
-      setLocal(value[0]);
+      console.log(json.meals[recipeId], 'JSON LOCAL STORAGE');
+      const value = (Object.values(json.meals[recipeId] || []));
+      console.log(value);
+      setLocal(value || []);
     }
   }
 
@@ -55,7 +56,15 @@ function FoodInProgress({ history }) {
     setClassNameChecked(target);
     setIngredientsList([...ingredientsList, target.name]);
     const id = recipe.idMeal;
-    localStorage.setItem('inProgressRecipes', JSON.stringify({ meals:
+    const exist = localStorage.getItem('inProgressRecipes');
+    if (exist) {
+      const json = JSON.parse(exist);
+      localStorage.setItem('inProgressRecipes', JSON.stringify({ ...json,
+        meals: { ...json.meals, [id]: [...ingredientsList, target.name] } }));
+      return;
+    }
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {},
+      meals:
       { [id]: [...ingredientsList, target.name] } }));
   }
 
@@ -119,7 +128,8 @@ function FoodInProgress({ history }) {
         { (fullIngredient.map((element, index) => (
           <li key={ index } data-testid={ `${index}-ingredient-step` }>
             <input
-              defaultChecked={ getLocal.some((jose) => element === jose) }
+              defaultChecked={ getLocal
+                .some((currentRecipe) => element === currentRecipe) }
               type="checkbox"
               name={ element }
               id={ index }
