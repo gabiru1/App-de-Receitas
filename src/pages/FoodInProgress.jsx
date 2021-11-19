@@ -7,7 +7,7 @@ import getIngredients from '../helper/helper';
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
-  const [checked, setChecked] = useState(0);
+  const [count, setCount] = useState(0);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
   const [recipe, setRecipe] = useState({});
@@ -28,12 +28,13 @@ function FoodInProgress({ history }) {
       }
       fullIngredientsArray.push(ingredientAndAmount);
     });
-    setFullIngredient(fullIngredientsArray.filter((element) => element !== ''));
+    setFullIngredient(fullIngredientsArray
+      .filter((element) => element !== ''));
     return fullIngredientsArray;
   }
 
   function countChecked(target) {
-    return target.checked ? setChecked(checked + 1) : setChecked(checked - 1);
+    return target.checked ? setCount(count + 1) : setCount(count - 1);
   }
 
   function setClassNameChecked(target) {
@@ -46,14 +47,12 @@ function FoodInProgress({ history }) {
       const json = JSON.parse(exist);
       console.log(json.meals[recipeId], 'JSON LOCAL STORAGE');
       const value = (Object.values(json.meals[recipeId] || []));
-      console.log(value);
+      setCount(value.length);
       setLocal(value || []);
     }
   }
 
-  function handleClick({ target }) {
-    countChecked(target);
-    setClassNameChecked(target);
+  function setRecipeLocalStorage(target) {
     setIngredientsList([...ingredientsList, target.name]);
     const id = recipe.idMeal;
     const exist = localStorage.getItem('inProgressRecipes');
@@ -66,6 +65,23 @@ function FoodInProgress({ history }) {
     localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {},
       meals:
       { [id]: [...ingredientsList, target.name] } }));
+  }
+
+  function handleClick({ target }) {
+    countChecked(target);
+    setClassNameChecked(target);
+    setRecipeLocalStorage(target);
+    const id = recipe.idMeal;
+    if (target.checked) {
+      setRecipeLocalStorage(target);
+      return;
+    }
+    const getLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const value = Object.values(getLocalStorage.meals[recipeId])
+      .filter((element) => element !== target.name);
+    setIngredientsList(value);
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ ...getLocalStorage,
+      meals: { ...getLocalStorage.meals, [id]: value } }));
   }
 
   async function fetchApi() {
@@ -113,7 +129,7 @@ function FoodInProgress({ history }) {
   }
 
   return (
-    <div>
+    <div className="main-div">
       <img
         alt={ recipe.strMeal }
         src={ recipe.strMealThumb }
@@ -126,7 +142,12 @@ function FoodInProgress({ history }) {
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
         { (fullIngredient.map((element, index) => (
-          <li key={ index } data-testid={ `${index}-ingredient-step` }>
+          <li
+            key={ index }
+            className={ getLocal
+              .some((currentRecipe) => element === currentRecipe) && 'checked' }
+            data-testid={ `${index}-ingredient-step` }
+          >
             <input
               defaultChecked={ getLocal
                 .some((currentRecipe) => element === currentRecipe) }
@@ -148,7 +169,7 @@ function FoodInProgress({ history }) {
         type="button"
         data-testid="finish-recipe-btn"
         onClick={ handleFinish }
-        disabled={ checked !== fullIngredient.length }
+        disabled={ count !== fullIngredient.length }
       >
         finalizar
       </button>

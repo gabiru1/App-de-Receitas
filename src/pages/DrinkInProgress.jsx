@@ -7,7 +7,7 @@ import { fetchApiByID } from '../services/FetchApi';
 
 function DrinkInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
-  const [checked, setChecked] = useState(0);
+  const [count, setCount] = useState(0);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
   const [recipe, setRecipe] = useState({});
@@ -31,7 +31,7 @@ function DrinkInProgress({ history }) {
   }
 
   function countChecked(target) {
-    return target.checked ? setChecked(checked + 1) : setChecked(checked - 1);
+    return target.checked ? setCount(count + 1) : setCount(count - 1);
   }
 
   function setClassNameChecked(target) {
@@ -44,12 +44,11 @@ function DrinkInProgress({ history }) {
       const json = JSON.parse(exist);
       const value = (Object.values(json.cocktails[recipeId] || []));
       setLocal(value || []);
+      setCount(value.length);
     }
   }
 
-  function handleClick({ target }) {
-    countChecked(target);
-    setClassNameChecked(target);
+  function setRecipeLocalStorage(target) {
     setIngredientsList([...ingredientsList, target.name]);
     const id = recipe.idDrink;
     const exist = localStorage.getItem('inProgressRecipes');
@@ -62,6 +61,22 @@ function DrinkInProgress({ history }) {
     localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {
       [id]: [...ingredientsList, target.name] },
     meals: { } }));
+  }
+
+  function handleClick({ target }) {
+    countChecked(target);
+    setClassNameChecked(target);
+    const id = recipe.idDrink;
+    if (target.checked) {
+      setRecipeLocalStorage(target);
+      return;
+    }
+    const getLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const value = Object.values(getLocalStorage.cocktails[recipeId])
+      .filter((element) => element !== target.name);
+    setIngredientsList(value);
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ ...getLocalStorage,
+      cocktails: { ...getLocalStorage.cocktails, [id]: value } }));
   }
 
   async function fetchApi() {
@@ -123,7 +138,12 @@ function DrinkInProgress({ history }) {
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
         { (fullIngredient.map((element, index) => (
-          <li key={ index } data-testid={ `${index}-ingredient-step` }>
+          <li
+            key={ index }
+            className={ getLocal
+              .some((currentRecipe) => element === currentRecipe) && 'checked' }
+            data-testid={ `${index}-ingredient-step` }
+          >
             <input
               defaultChecked={ getLocal
                 .some((currentRecipe) => element === currentRecipe) }
@@ -145,7 +165,7 @@ function DrinkInProgress({ history }) {
         type="button"
         data-testid="finish-recipe-btn"
         onClick={ handleFinish }
-        disabled={ checked !== fullIngredient.length }
+        disabled={ count !== fullIngredient.length }
       >
         finalizar
       </button>
