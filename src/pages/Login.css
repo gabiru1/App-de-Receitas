@@ -31,8 +31,8 @@
 
   .btnLogin {
     background: #003be5;
+    border: none;
     border-radius: 25px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     color: white;
     height: 30px;
     margin-top: 20px;
