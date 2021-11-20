@@ -17,7 +17,7 @@ function CardRecipesMade(
     }, timeToClose);
   }
   function copyToClipBoard() {
-    const urlToCopy = `${window.location.origin}/comidas/${id}`;
+    const urlToCopy = `${window.location.origin}/${type}s/${id}`;
     const copyUrl = copy(urlToCopy).catch((error) => console.log(error, copyUrl));
     setShowAlert(true);
     closeAlert();

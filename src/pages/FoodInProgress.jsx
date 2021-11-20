@@ -123,8 +123,8 @@ function FoodInProgress({ history }) {
     };
     if (exist) {
       const json = JSON.parse(exist);
-      localStorage.setItem('doneRecipe', JSON.stringify([...json, doneRecipe]));
-    } else localStorage.setItem('doneRecipe', JSON.stringify([doneRecipe]));
+      localStorage.setItem('doneRecipes', JSON.stringify([...json, doneRecipe]));
+    } else localStorage.setItem('doneRecipes', JSON.stringify([doneRecipe]));
     history.push('/receitas-feitas');
   }
 
