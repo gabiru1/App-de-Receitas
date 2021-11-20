@@ -201,7 +201,9 @@ function DrinkInProgress({ history }) {
         {recipe.strInstructions }
       </div>
       <button type="button" data-testid="share-btn">compartilhar</button>
-      <button type="button" onClick={ handleFavorite }><img data-testid="favorite-btn" src={ heart } alt="favoritar" /></button>
+      <button type="button" onClick={ handleFavorite }>
+        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+      </button>
       <button
         type="button"
         data-testid="finish-recipe-btn"
