@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { fetchApiByID } from '../services/FetchApi';
-import './FoodInProgress.css';
-import getIngredients from '../helper/helper';
+import { getIngredients } from '../helper/helper';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import saveFoodRecipeLocalStorage from '../helper/saveFoodRecipeLocalStorage';
@@ -36,7 +35,7 @@ function FoodInProgress({ history }) {
     });
     setFullIngredient(fullIngredientsArray
       .filter((element) => element !== ''));
-    return fullIngredientsArray;
+    /* return fullIngredientsArray; */
   }
 
   function countChecked(target) {
@@ -124,7 +123,7 @@ function FoodInProgress({ history }) {
   }
 
   return (
-    <div className="main-div">
+    <section>
       <img
         alt={ recipe.strMeal }
         src={ recipe.strMealThumb }
@@ -134,6 +133,9 @@ function FoodInProgress({ history }) {
       <h1 data-testid="recipe-title">
         {recipe.strMeal}
       </h1>
+      <button type="button" onClick={ handleFavorite }>
+        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+      </button>
       <ShareButton path={ `comidas/${recipeId}` } />
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
@@ -159,9 +161,6 @@ function FoodInProgress({ history }) {
       <div data-testid="instructions">
         {recipe.strInstructions }
       </div>
-      <button type="button" onClick={ handleFavorite }>
-        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
-      </button>
       <button
         type="button"
         data-testid="finish-recipe-btn"
@@ -170,7 +169,7 @@ function FoodInProgress({ history }) {
       >
         finalizar
       </button>
-    </div>
+    </section>
   );
 }
 

@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import CardRecommendedRecipe from '../components/CardRecommendedRecipe';
-import getIngredients from '../helper/helper';
+import { getFullIngredients } from '../helper/helper';
 import { fetchApiByID, fetchApiByName } from '../services/FetchApi';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -18,30 +18,16 @@ function DetailsFoodRecipe() {
   const [recommended, setRecommended] = useState([]);
   const [heart, setHeart] = useState(whiteHeartIcon);
   const [toggleHeart, setToggleHeart] = useState(true);
+  const [showBtn, setShowBtn] = useState(false);
   const { recipeId } = useParams();
+
+  const MAX_RECOMMENDED = 6;
+  const settings = { slidesToShow: 2, infinite: false };
 
   function getVideoId(data) {
     const EXCLUDE_HTTP = 32;
     const videoId = data[0].strYoutube.slice(EXCLUDE_HTTP);
     return videoId;
-  }
-
-  function getFullIngredients(response) {
-    const fullIngredients = [];
-    const newIngredients = getIngredients(response, 'strIngredient');
-    const amount = getIngredients(response, 'strMeasure');
-
-    newIngredients.forEach((ingredient, index) => {
-      let ingredientAndAmount = '';
-      if (ingredient !== (null || '')) {
-        ingredientAndAmount += ingredient;
-      }
-      if (amount[index] !== (null || '')) {
-        ingredientAndAmount += ` - ${amount[index]}`;
-      }
-      fullIngredients.push(ingredientAndAmount);
-    });
-    return fullIngredients;
   }
 
   async function fetchDetails() {
@@ -55,11 +41,17 @@ function DetailsFoodRecipe() {
 
   useEffect(() => {
     fetchDetails();
-    const getRecipe = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    const exist = getRecipe.find((element) => element.id === recipeId);
-    if (exist) {
+    const getFavoriteRecipe = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const getinProgressRecipes = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || { meals: {} };
+    const isFavorite = getFavoriteRecipe.find((element) => element.id === recipeId);
+    const isInProgress = getinProgressRecipes.meals;
+    if (isFavorite) {
       setHeart(blackHeartIcon);
       setToggleHeart(!toggleHeart);
+    }
+    if (Object.keys(isInProgress)[0] === recipeId) {
+      setShowBtn(true);
     }
   }, []);
 
@@ -75,9 +67,6 @@ function DetailsFoodRecipe() {
       localStorage.setItem('favoriteRecipes', JSON.stringify(filtered));
     }
   }
-
-  const MAX_RECOMMENDED = 6;
-  const settings = { slidesToShow: 2, infinite: false };
 
   return (
     <section>
@@ -143,7 +132,7 @@ function DetailsFoodRecipe() {
               type="button"
               className="btn-footer"
             >
-              Iniciar Receita
+              { showBtn ? 'Continuar Receita' : 'Iniciar Receita' }
             </button>
           </Link>
         </section>

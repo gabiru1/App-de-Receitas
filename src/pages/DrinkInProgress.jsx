@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import './FoodInProgress.css';
-import getIngredients from '../helper/helper';
+import { getIngredients } from '../helper/helper';
 import { fetchApiByID } from '../services/FetchApi';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -121,7 +120,7 @@ function DrinkInProgress({ history }) {
   }
 
   return (
-    <div>
+    <section>
       <img
         alt={ recipe.strDrink }
         src={ recipe.strDrinkThumb }
@@ -131,6 +130,9 @@ function DrinkInProgress({ history }) {
       <h1 data-testid="recipe-title">
         {recipe.strDrink}
       </h1>
+      <button type="button" onClick={ handleFavorite }>
+        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+      </button>
       <ShareButton path={ `bebidas/${recipeId}` } />
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
@@ -156,9 +158,6 @@ function DrinkInProgress({ history }) {
       <div data-testid="instructions">
         {recipe.strInstructions }
       </div>
-      <button type="button" onClick={ handleFavorite }>
-        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
-      </button>
       <button
         type="button"
         data-testid="finish-recipe-btn"
@@ -167,7 +166,7 @@ function DrinkInProgress({ history }) {
       >
         finalizar
       </button>
-    </div>
+    </section>
   );
 }
 

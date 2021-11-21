@@ -134,4 +134,9 @@ code {
     height: 40px;
     width: 80%;
   }
+
+  .checked {
+    text-decoration: line-through;
+  }
+
 }
