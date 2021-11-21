@@ -8,6 +8,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import saveDrinkRecipeLocalStorage from '../helper/saveDrinkRecipeLocalStorage';
 import setDrinkFavoriteInLocalStorage from '../helper/setFavoriteDrinkInLocalStorage';
+import ShareButton from '../components/ShareButton';
 
 function DrinkInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
@@ -106,26 +107,6 @@ function DrinkInProgress({ history }) {
     saveDrinkRecipeLocalStorage(recipe, recipeId, history);
   }
 
-  /* function setFavoriteInLocalStorage() {
-    const exist = localStorage.getItem('favoriteRecipes');
-    const obj = {
-      id: recipeId,
-      type: 'bebida',
-      area: recipe.strArea || '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic,
-      name: recipe.strDrink,
-      image: recipe.strDrinkThumb,
-    };
-
-    if (exist) {
-      const json = JSON.parse(exist);
-      localStorage.setItem('favoriteRecipes', JSON.stringify([...json, obj]));
-      return;
-    }
-    localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
-  } */
-
   function handleFavorite() {
     setToggleHeart(!toggleHeart);
     if (toggleHeart) {
@@ -150,6 +131,7 @@ function DrinkInProgress({ history }) {
       <h1 data-testid="recipe-title">
         {recipe.strDrink}
       </h1>
+      <ShareButton path={ `bebidas/${recipeId}` } />
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
         { (fullIngredient.map((element, index) => (
@@ -174,7 +156,6 @@ function DrinkInProgress({ history }) {
       <div data-testid="instructions">
         {recipe.strInstructions }
       </div>
-      <button type="button" data-testid="share-btn">compartilhar</button>
       <button type="button" onClick={ handleFavorite }>
         <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
       </button>

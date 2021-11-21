@@ -8,6 +8,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import saveFoodRecipeLocalStorage from '../helper/saveFoodRecipeLocalStorage';
 import setFoodFavoriteInLocalStorage from '../helper/setFoodFavoriteInLocalStorage';
+import ShareButton from '../components/ShareButton';
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
@@ -133,6 +134,7 @@ function FoodInProgress({ history }) {
       <h1 data-testid="recipe-title">
         {recipe.strMeal}
       </h1>
+      <ShareButton path={ `comidas/${recipeId}` } />
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
         { (fullIngredient.map((element, index) => (
@@ -157,7 +159,6 @@ function FoodInProgress({ history }) {
       <div data-testid="instructions">
         {recipe.strInstructions }
       </div>
-      <button type="button" data-testid="share-btn">compartilhar</button>
       <button type="button" onClick={ handleFavorite }>
         <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
       </button>
