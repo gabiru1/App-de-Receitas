@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -71,7 +72,7 @@ function CardRecipesMade(
         width="10px"
         onClick={ copyToClipBoard }
       >
-        Compartilhar
+        <img src={ shareIcon } alt="share" />
       </button>
     </div>
   );

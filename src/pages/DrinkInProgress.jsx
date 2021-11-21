@@ -7,13 +7,14 @@ import { fetchApiByID } from '../services/FetchApi';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import saveDrinkRecipeLocalStorage from '../helper/saveDrinkRecipeLocalStorage';
+import setDrinkFavoriteInLocalStorage from '../helper/setFavoriteDrinkInLocalStorage';
 
 function DrinkInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
   const [count, setCount] = useState(0);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState([]);
   const [heart, setHeart] = useState(whiteHeartIcon);
   const [toggleHeart, setToggleHeart] = useState(true);
   const { recipeId } = useParams();
@@ -93,28 +94,29 @@ function DrinkInProgress({ history }) {
   useEffect(() => {
     fetchApi();
     sendLocalStorage();
-    const exist = localStorage.getItem('favoriteRecipes');
+    const getRecipe = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const exist = getRecipe.find((element) => element.id === recipeId);
     if (exist) {
       setHeart(blackHeartIcon);
+      setToggleHeart(!toggleHeart);
     }
   }, []);
 
   function handleFinish() {
-    saveDrinkRecipeLocalStorage(recipe, recipeId, 'bebida', history);
+    saveDrinkRecipeLocalStorage(recipe, recipeId, history);
   }
 
-  function setFavoriteInLocalStorage() {
+  /* function setFavoriteInLocalStorage() {
     const exist = localStorage.getItem('favoriteRecipes');
     const obj = {
       id: recipeId,
       type: 'bebida',
-      area: recipe.strArea,
+      area: recipe.strArea || '',
       category: recipe.strCategory,
       alcoholicOrNot: recipe.strAlcoholic,
       name: recipe.strDrink,
       image: recipe.strDrinkThumb,
     };
-    console.log(obj);
 
     if (exist) {
       const json = JSON.parse(exist);
@@ -122,12 +124,13 @@ function DrinkInProgress({ history }) {
       return;
     }
     localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
-  }
+  } */
+
   function handleFavorite() {
     setToggleHeart(!toggleHeart);
     if (toggleHeart) {
       setHeart(blackHeartIcon);
-      setFavoriteInLocalStorage();
+      setDrinkFavoriteInLocalStorage(recipe, recipeId);
     } else {
       setHeart(whiteHeartIcon);
       const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));

@@ -27,7 +27,7 @@ function Drinks() {
   }, []);
 
   function sendAlert(apiResult) {
-    if (!apiResult.meals) {
+    if (!apiResult.drinks) {
       global.alert(MESSAGE);
     }
   }

@@ -7,7 +7,7 @@ function getDate() {
   return dataAtual;
 }
 
-export default function saveDrinkRecipeLocalStorage(recipe, recipeId, type, history) {
+export default function saveDrinkRecipeLocalStorage(recipe, recipeId, history) {
   const exist = localStorage.getItem('doneRecipes');
   let tags = [];
   if (!recipe.strTags === ('' || null)) {

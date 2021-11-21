@@ -7,7 +7,7 @@ function getDate() {
   return dataAtual;
 }
 
-export default function saveFoodRecipeLocalStorage(recipe, recipeId, type, history) {
+export default function saveFoodRecipeLocalStorage(recipe, recipeId, history) {
   const exist = localStorage.getItem('doneRecipes');
   let tags = [];
   if (!recipe.strTags === ('' || null)) {
@@ -15,7 +15,7 @@ export default function saveFoodRecipeLocalStorage(recipe, recipeId, type, histo
   }
   const doneRecipe = {
     id: recipeId,
-    type,
+    type: 'comida',
     area: recipe.strArea,
     category: recipe.strCategory,
     alcoholicOrNot: '',

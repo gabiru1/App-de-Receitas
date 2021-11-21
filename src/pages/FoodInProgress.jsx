@@ -4,14 +4,19 @@ import { useParams } from 'react-router';
 import { fetchApiByID } from '../services/FetchApi';
 import './FoodInProgress.css';
 import getIngredients from '../helper/helper';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import saveFoodRecipeLocalStorage from '../helper/saveFoodRecipeLocalStorage';
+import setFoodFavoriteInLocalStorage from '../helper/setFoodFavoriteInLocalStorage';
 
 function FoodInProgress({ history }) {
   const [fullIngredient, setFullIngredient] = useState([]);
   const [count, setCount] = useState(0);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [getLocal, setLocal] = useState([]);
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState([]);
+  const [heart, setHeart] = useState(whiteHeartIcon);
+  const [toggleHeart, setToggleHeart] = useState(true);
   const { recipeId } = useParams();
 
   function getFullIngredients(response) {
@@ -21,7 +26,6 @@ function FoodInProgress({ history }) {
     ingredients.forEach((element, index) => {
       let ingredientAndAmount = '';
       if (element) {
-        console.log(element);
         ingredientAndAmount += element;
       }
       if (amountIngredients[index]) {
@@ -46,10 +50,9 @@ function FoodInProgress({ history }) {
     const exist = localStorage.getItem('inProgressRecipes');
     if (exist) {
       const json = JSON.parse(exist);
-      console.log(json.meals[recipeId], 'JSON LOCAL STORAGE');
       const value = (Object.values(json.meals[recipeId] || []));
-      setCount(value.length);
       setLocal(value || []);
+      setCount(value.length);
     }
   }
 
@@ -94,10 +97,29 @@ function FoodInProgress({ history }) {
   useEffect(() => {
     fetchApi();
     sendLocalStorage();
+    const getRecipe = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const exist = getRecipe.find((element) => element.id === recipeId);
+    if (exist) {
+      setHeart(blackHeartIcon);
+      setToggleHeart(!toggleHeart);
+    }
   }, []);
 
   function handleFinish() {
-    saveFoodRecipeLocalStorage(recipe, recipeId, 'comida', history);
+    saveFoodRecipeLocalStorage(recipe, recipeId, history);
+  }
+
+  function handleFavorite() {
+    setToggleHeart(!toggleHeart);
+    if (toggleHeart) {
+      setHeart(blackHeartIcon);
+      setFoodFavoriteInLocalStorage(recipe, recipeId);
+    } else {
+      setHeart(whiteHeartIcon);
+      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const filtered = getLocalStorage.filter((element) => element.id !== recipeId);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(filtered));
+    }
   }
 
   return (
@@ -136,7 +158,9 @@ function FoodInProgress({ history }) {
         {recipe.strInstructions }
       </div>
       <button type="button" data-testid="share-btn">compartilhar</button>
-      <button type="button" data-testid="favorite-btn">favoritar</button>
+      <button type="button" onClick={ handleFavorite }>
+        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+      </button>
       <button
         type="button"
         data-testid="finish-recipe-btn"
