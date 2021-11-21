@@ -7,11 +7,17 @@ import 'slick-carousel/slick/slick.css';
 import CardRecommendedRecipe from '../components/CardRecommendedRecipe';
 import getIngredients from '../helper/helper';
 import { fetchApiByID, fetchApiByName } from '../services/FetchApi';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import setDrinkFavoriteInLocalStorage from '../helper/setFavoriteDrinkInLocalStorage';
+import ShareButton from '../components/ShareButton';
 
 function DetaisDrinkRecipe() {
   const [details, setDetails] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [recommended, setRecommended] = useState([]);
+  const [heart, setHeart] = useState(whiteHeartIcon);
+  const [toggleHeart, setToggleHeart] = useState(true);
   const { recipeId } = useParams();
 
   function getFullIngredients(response) {
@@ -42,15 +48,34 @@ function DetaisDrinkRecipe() {
 
   useEffect(() => {
     fetchDetails();
+    const getRecipe = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const exist = getRecipe.find((element) => element.id === recipeId);
+    if (exist) {
+      setHeart(blackHeartIcon);
+      setToggleHeart(!toggleHeart);
+    }
   }, []);
+
+  function handleFavorite() {
+    setToggleHeart(!toggleHeart);
+    if (toggleHeart) {
+      setHeart(blackHeartIcon);
+      setDrinkFavoriteInLocalStorage(details[0], recipeId);
+    } else {
+      setHeart(whiteHeartIcon);
+      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const filtered = getLocalStorage.filter((element) => element.id !== recipeId);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(filtered));
+    }
+  }
 
   const MAX_RECOMMENDED = 6;
   const settings = { slidesToShow: 2, infinite: false };
 
   return (
-    <div>
+    <section>
       { details.length > 0 && (
-        <>
+        <section>
           <img
             src={ details[0].strDrinkThumb }
             alt={ details[0].strDrink }
@@ -58,13 +83,11 @@ function DetaisDrinkRecipe() {
             className="card-image"
           />
           <h1 data-testid="recipe-title">{details[0].strDrink}</h1>
+          <button type="button" onClick={ handleFavorite }>
+            <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+          </button>
+          <ShareButton path={ `bebidas/${recipeId}` } />
           <h3 data-testid="recipe-category">{ details[0].strAlcoholic }</h3>
-          <button data-testid="share-btn" type="button">Compartilhar</button>
-          {' '}
-          <label htmlFor="favorite-btn">
-            Favoritar
-            <input type="checkbox" data-testid="favorite-btn" />
-          </label>
           {ingredients.map((ingredient, index) => (
             <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
               {ingredient}
@@ -89,18 +112,21 @@ function DetaisDrinkRecipe() {
               ))}
             </Slider>
           </div>
-          <Link to={ `/bebidas/${recipeId}/in-progress` }>
+          <Link
+            data-testid="start-recipe-btn"
+            className="link-btn-footer"
+            to={ `/bebidas/${recipeId}/in-progress` }
+          >
             <button
               type="button"
-              data-testid="start-recipe-btn"
-              className="Footer"
+              className="btn-footer"
             >
               Iniciar Receita
             </button>
           </Link>
-        </>
+        </section>
       )}
-    </div>
+    </section>
   );
 }
 

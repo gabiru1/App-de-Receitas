@@ -120,4 +120,18 @@ code {
     height: 60px;
     margin: 5px;
   }
+
+  .link-btn-footer {
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+  }
+
+  .btn-footer {
+    font-size: large;
+    height: 40px;
+    width: 80%;
+  }
 }
