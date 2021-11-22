@@ -39,59 +39,70 @@ function FavoritesRecipes() {
   }
 
   return (
-    <section>
+    <section className="section-favorite-page">
       <Header title="Receitas Favoritas" showSearchBtn={ false } />
       <section>
-        <button
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ () => filterDataByType('all') }
-        >
-          All
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-food-btn"
-          onClick={ () => filterDataByType('comida') }
-        >
-          Food
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ () => filterDataByType('bebida') }
-        >
-          Drinks
-        </button>
-        <section>
+        <div className="container-buttons-filter">
+          <button
+            type="button"
+            className="btn-filter-type"
+            data-testid="filter-by-all-btn"
+            onClick={ () => filterDataByType('all') }
+          >
+            All
+          </button>
+          <button
+            type="button"
+            className="btn-filter-type"
+            data-testid="filter-by-food-btn"
+            onClick={ () => filterDataByType('comida') }
+          >
+            Food
+          </button>
+          <button
+            type="button"
+            className="btn-filter-type"
+            data-testid="filter-by-drink-btn"
+            onClick={ () => filterDataByType('bebida') }
+          >
+            Drinks
+          </button>
+        </div>
+        <section className="container-card-favorite">
           { filteredData.map((recipe, index) => (
-            <div key={ recipe.id }>
-              <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <div key={ recipe.id } className="card-favorite">
+              <Link to={ `/${recipe.type}s/${recipe.id}` } className="link-favorite">
                 <img
                   src={ recipe.image }
                   alt={ recipe.name }
                   data-testid={ `${index}-horizontal-image` }
-                  width="200px"
+                  className="img-favorite"
                 />
-                <h2 data-testid={ `${index}-horizontal-name` }>
+                <h3 data-testid={ `${index}-horizontal-name` }>
                   {recipe.name}
-                </h2>
+                </h3>
               </Link>
-              <h3 data-testid={ `${index}-horizontal-top-text` }>
+              <p data-testid={ `${index}-horizontal-top-text` }>
                 {recipe.type === 'comida' ? (
                   `${recipe.area} - ${recipe.category}`
                 ) : (
                   `${recipe.alcoholicOrNot}`
                 )}
-              </h3>
-              <div>
-                <button type="button" onClick={ () => handleFavorite(recipe.id) }>
-                  <img
-                    data-testid={ `${index}-horizontal-favorite-btn` }
-                    src={ blackHeartIcon }
-                    alt="favoritar"
-                  />
-                </button>
+              </p>
+              <div className="btns-favorite">
+                <div>
+                  <button
+                    type="button"
+                    onClick={ () => handleFavorite(recipe.id) }
+                    className="search-btn"
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      src={ blackHeartIcon }
+                      alt="favoritar"
+                    />
+                  </button>
+                </div>
                 <ShareButton
                   path={ `${recipe.type}s/${recipe.id}` }
                   dataTest={ `${index}-horizontal-share-btn` }

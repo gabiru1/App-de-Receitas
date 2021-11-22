@@ -177,4 +177,48 @@ code {
     width: 100%;
   }
 
+  .btn-filter-type {
+    font-size: 16px;
+    height: 40px;
+    width: 30%;
+  }
+
+  .section-favorite-page {
+    width: 100vw;
+  }
+
+  .container-card-favorite {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .img-favorite {
+    width: 100px;
+  }
+
+  .card-favorite {
+    border-radius: 4px;
+    box-shadow: 3px 4px rgba(196, 196, 196, 1);
+    display: flex;
+    font-size: 10px;
+    justify-content: space-between;
+    margin: 15px;
+    width: 90%;
+  }
+
+  .btns-favorite {
+    display: flex;
+  }
+
+  .link-favorite {
+    color: inherit;
+    display: flex;
+    text-decoration: none;
+  }
+
+  .link-favorite h3 {
+    margin-left: 10px;
+  }
+
 }
