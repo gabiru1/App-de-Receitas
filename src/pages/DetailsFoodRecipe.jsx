@@ -82,7 +82,7 @@ function DetailsFoodRecipe() {
           <button type="button" onClick={ handleFavorite }>
             <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
           </button>
-          <ShareButton path={ `comidas/${recipeId}` } />
+          <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
           <h3 data-testid="recipe-category">{ details[0].strCategory }</h3>
           {ingredients.map((ingredient, index) => (
             (ingredient !== ' -  ') && (

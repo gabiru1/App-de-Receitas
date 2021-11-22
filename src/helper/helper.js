@@ -23,3 +23,21 @@ export function getFullIngredients(response) {
   });
   return fullIngredients;
 }
+
+export function getFullIngredientsDrinks(response) {
+  const fullIngredients = [];
+  const newIngredients = getIngredients(response, 'strIngredient');
+  const amount = getIngredients(response, 'strMeasure');
+
+  newIngredients.forEach((ingredient, index) => {
+    let ingredientAndAmount = '';
+    if (ingredient !== null) {
+      ingredientAndAmount += ingredient;
+    }
+    if (amount[index] !== null) {
+      ingredientAndAmount += ` - ${amount[index]}`;
+    }
+    fullIngredients.push(ingredientAndAmount);
+  });
+  return fullIngredients;
+}

@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import CardRecommendedRecipe from '../components/CardRecommendedRecipe';
-import { getFullIngredients } from '../helper/helper';
+import { getFullIngredientsDrinks } from '../helper/helper';
 import { fetchApiByID, fetchApiByName } from '../services/FetchApi';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -21,10 +21,13 @@ function DetaisDrinkRecipe() {
   const [showBtn, setShowBtn] = useState(false);
   const { recipeId } = useParams();
 
+  const MAX_RECOMMENDED = 6;
+  const settings = { slidesToShow: 2, infinite: false };
+
   async function fetchDetails() {
     const response = await fetchApiByID(recipeId, false);
     const recommendedResponse = await fetchApiByName('', true);
-    setIngredients(getFullIngredients(response));
+    setIngredients(getFullIngredientsDrinks(response));
     setRecommended(recommendedResponse);
     setDetails(response);
   }
@@ -58,9 +61,6 @@ function DetaisDrinkRecipe() {
     }
   }
 
-  const MAX_RECOMMENDED = 6;
-  const settings = { slidesToShow: 2, infinite: false };
-
   return (
     <section>
       { details.length > 0 && (
@@ -75,7 +75,7 @@ function DetaisDrinkRecipe() {
           <button type="button" onClick={ handleFavorite }>
             <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
           </button>
-          <ShareButton path={ `bebidas/${recipeId}` } />
+          <ShareButton path={ `bebidas/${recipeId}` } dataTest="share-btn" />
           <h3 data-testid="recipe-category">{ details[0].strAlcoholic }</h3>
           {ingredients.map((ingredient, index) => (
             <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>

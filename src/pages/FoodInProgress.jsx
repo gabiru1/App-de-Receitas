@@ -136,7 +136,7 @@ function FoodInProgress({ history }) {
       <button type="button" onClick={ handleFavorite }>
         <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
       </button>
-      <ShareButton path={ `comidas/${recipeId}` } />
+      <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
       <ol>
         { (fullIngredient.map((element, index) => (

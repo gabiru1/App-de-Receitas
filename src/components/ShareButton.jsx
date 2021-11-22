@@ -5,7 +5,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-function ShareButton({ path }) {
+function ShareButton({ path, dataTest }) {
   const [showAlert, setShowAlert] = useState(false);
 
   function closeAlert() {
@@ -32,7 +32,7 @@ function ShareButton({ path }) {
     <div>
       <button
         type="button"
-        data-testid="share-btn"
+        data-testid={ dataTest }
         src={ shareIcon }
         width="10px"
         onClick={ copyToClipBoard }
@@ -46,10 +46,12 @@ function ShareButton({ path }) {
 
 ShareButton.propTypes = {
   path: PropTypes.string,
+  dataTest: PropTypes.string,
 };
 
 ShareButton.defaultProps = {
   path: '',
+  dataTest: '',
 };
 
 export default ShareButton;
