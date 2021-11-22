@@ -21,7 +21,7 @@ export function getFullIngredients(response) {
     }
     fullIngredients.push(ingredientAndAmount);
   });
-  return fullIngredients;
+  return fullIngredients.filter((element) => element !== 'null - null');
 }
 
 export function getFullIngredientsDrinks(response) {
@@ -39,5 +39,5 @@ export function getFullIngredientsDrinks(response) {
     }
     fullIngredients.push(ingredientAndAmount);
   });
-  return fullIngredients;
+  return fullIngredients.filter((element) => element !== ' - ');
 }
