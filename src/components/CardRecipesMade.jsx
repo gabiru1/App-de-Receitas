@@ -32,48 +32,50 @@ function CardRecipesMade(
   }
 
   return (
-    <div>
-      <Link to={ `/${type}s/${id}` }>
+    <div className="card-favorite">
+      <Link to={ `/${type}s/${id}` } className="link-favorite">
         <img
           src={ image }
           alt={ name }
           data-testid={ `${index}-horizontal-image` }
-          width="200px"
+          className="img-favorite"
         />
-        <h2 data-testid={ `${index}-horizontal-name` }>
+        <h3 data-testid={ `${index}-horizontal-name` }>
           {name}
-        </h2>
+        </h3>
       </Link>
-      <h3 data-testid={ `${index}-horizontal-top-text` }>
+      <p data-testid={ `${index}-horizontal-top-text` }>
         {type === 'comida' ? (
           `${area} - ${category}`
         ) : (
           `${alcoholic}`
         )}
-      </h3>
-      <h3 data-testid={ `${index}-horizontal-done-date` }>
+      </p>
+      <p data-testid={ `${index}-horizontal-done-date` }>
         {doneDate}
-      </h3>
+      </p>
       <div>
         {tags.length > 0 && tags.map((tagName) => (
-          <h3
+          <p
             data-testid={ `${index}-${tagName}-horizontal-tag` }
             key={ `${tagName}${index}` }
           >
             {tagName}
-          </h3>
+          </p>
         ))}
       </div>
       {showAlert && createAlert()}
-      <button
-        type="button"
-        data-testid={ `${index}-horizontal-share-btn` }
-        src="src/images/shareIcon.svg"
-        width="10px"
-        onClick={ copyToClipBoard }
-      >
-        <img src={ shareIcon } alt="share" />
-      </button>
+      <div>
+        <button
+          type="button"
+          data-testid={ `${index}-horizontal-share-btn` }
+          src="src/images/shareIcon.svg"
+          onClick={ copyToClipBoard }
+          className="search-btn"
+        >
+          <img src={ shareIcon } alt="share" />
+        </button>
+      </div>
     </div>
   );
 }

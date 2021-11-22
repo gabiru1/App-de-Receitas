@@ -31,10 +31,11 @@ function RecipesMade() {
   return (
     <div>
       <Header title="Receitas Feitas" showSearchBtn={ false } />
-      <section>
+      <section className="container-buttons-filter">
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          className="btn-filter-type"
           onClick={ () => filterDataByType('all') }
         >
           All
@@ -42,6 +43,7 @@ function RecipesMade() {
         <button
           type="button"
           data-testid="filter-by-food-btn"
+          className="btn-filter-type"
           onClick={ () => filterDataByType('comida') }
         >
           Food
@@ -49,12 +51,13 @@ function RecipesMade() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
+          className="btn-filter-type"
           onClick={ () => filterDataByType('bebida') }
         >
           Drinks
         </button>
       </section>
-      <section>
+      <section className="container-card-favorite">
         {filteredData
           .map(
             (
