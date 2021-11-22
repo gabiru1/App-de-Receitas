@@ -35,7 +35,6 @@ function FoodInProgress({ history }) {
     });
     setFullIngredient(fullIngredientsArray
       .filter((element) => element !== ''));
-    /* return fullIngredientsArray; */
   }
 
   function countChecked(target) {
@@ -123,52 +122,59 @@ function FoodInProgress({ history }) {
   }
 
   return (
-    <section>
+    <section className="main-section">
       <img
         alt={ recipe.strMeal }
         src={ recipe.strMealThumb }
-        width="200px"
         data-testid="recipe-photo"
+        className="detail-image"
       />
-      <h1 data-testid="recipe-title">
-        {recipe.strMeal}
-      </h1>
-      <button type="button" onClick={ handleFavorite }>
-        <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
-      </button>
-      <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
-      <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
-      <ol>
-        { (fullIngredient.map((element, index) => (
-          <li
-            key={ index }
-            className={ getLocal
-              .some((currentRecipe) => element === currentRecipe) && 'checked' }
-            data-testid={ `${index}-ingredient-step` }
+      <section className="sub-section">
+        <div className="container-btns-title">
+          <h1 data-testid="recipe-title">
+            {recipe.strMeal}
+          </h1>
+          <button type="button" onClick={ handleFavorite } className="search-btn">
+            <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+          </button>
+          <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
+        </div>
+        <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
+        <ol>
+          { (fullIngredient.map((element, index) => (
+            <li
+              key={ index }
+              className={ getLocal
+                .some((currentRecipe) => element === currentRecipe) && 'checked' }
+              data-testid={ `${index}-ingredient-step` }
+            >
+              <input
+                defaultChecked={ getLocal
+                  .some((currentRecipe) => element === currentRecipe) }
+                type="checkbox"
+                name={ element }
+                id={ index }
+                onChange={ (event) => handleClick(event) }
+              />
+              {' '}
+              {element}
+            </li>)))}
+        </ol>
+        <div data-testid="instructions">
+          {recipe.strInstructions }
+        </div>
+        <div className="link-btn-footer">
+          <button
+            type="button"
+            data-testid="finish-recipe-btn"
+            onClick={ handleFinish }
+            className="btn-footer"
+            disabled={ count !== fullIngredient.length }
           >
-            <input
-              defaultChecked={ getLocal
-                .some((currentRecipe) => element === currentRecipe) }
-              type="checkbox"
-              name={ element }
-              id={ index }
-              onChange={ (event) => handleClick(event) }
-            />
-            {' '}
-            {element}
-          </li>)))}
-      </ol>
-      <div data-testid="instructions">
-        {recipe.strInstructions }
-      </div>
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
-        onClick={ handleFinish }
-        disabled={ count !== fullIngredient.length }
-      >
-        finalizar
-      </button>
+            finalizar
+          </button>
+        </div>
+      </section>
     </section>
   );
 }
