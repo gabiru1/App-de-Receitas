@@ -62,7 +62,7 @@ function DetaisDrinkRecipe() {
   }
 
   return (
-    <section>
+    <section className="main-section">
       { details.length > 0 && (
         <section>
           <img
@@ -71,48 +71,55 @@ function DetaisDrinkRecipe() {
             data-testid="recipe-photo"
             className="card-image"
           />
-          <h1 data-testid="recipe-title">{details[0].strDrink}</h1>
-          <button type="button" onClick={ handleFavorite }>
-            <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
-          </button>
-          <ShareButton path={ `bebidas/${recipeId}` } dataTest="share-btn" />
-          <h3 data-testid="recipe-category">{ details[0].strAlcoholic }</h3>
-          {ingredients.map((ingredient, index) => (
-            <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-              {ingredient}
-            </p>
-          ))}
-          <div>
-            <h3>Modo de preparo</h3>
-            <p data-testid="instructions">{ details[0].strInstructions }</p>
-          </div>
-          <div>
-            <h3>Comidas Recomendadas</h3>
-            <Slider { ...settings }>
-              {recommended.meals.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
-                <CardRecommendedRecipe
-                  key={ index }
-                  dataTesteID={ index }
-                  src={ recipe.strMealThumb }
-                  name={ recipe.strMeal }
-                  id={ recipe.idMeal }
-                  path={ `/comidas/${recipe.idMeal}` }
-                />
+          <section className="sub-section">
+            <div className="container-btns-title">
+              <h2 data-testid="recipe-title">{details[0].strDrink}</h2>
+              <button type="button" onClick={ handleFavorite } className="search-btn">
+                <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+              </button>
+              <ShareButton path={ `bebidas/${recipeId}` } dataTest="share-btn" />
+            </div>
+            <h4 data-testid="recipe-category">{ details[0].strAlcoholic }</h4>
+            <div>
+              <h3>Ingredients</h3>
+              {ingredients.map((ingredient, index) => (
+                <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+                  {ingredient}
+                </p>
               ))}
-            </Slider>
-          </div>
-          <Link
-            data-testid="start-recipe-btn"
-            className="link-btn-footer"
-            to={ `/bebidas/${recipeId}/in-progress` }
-          >
-            <button
-              type="button"
-              className="btn-footer"
+            </div>
+            <div>
+              <h3>Modo de preparo</h3>
+              <p data-testid="instructions">{ details[0].strInstructions }</p>
+            </div>
+            <div>
+              <h3>Comidas Recomendadas</h3>
+              <Slider { ...settings }>
+                {recommended.meals.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
+                  <CardRecommendedRecipe
+                    key={ index }
+                    dataTesteID={ index }
+                    src={ recipe.strMealThumb }
+                    name={ recipe.strMeal }
+                    id={ recipe.idMeal }
+                    path={ `/comidas/${recipe.idMeal}` }
+                  />
+                ))}
+              </Slider>
+            </div>
+            <Link
+              data-testid="start-recipe-btn"
+              className="link-btn-footer"
+              to={ `/bebidas/${recipeId}/in-progress` }
             >
-              { showBtn ? 'Continuar Receita' : 'Iniciar Receita' }
-            </button>
-          </Link>
+              <button
+                type="button"
+                className="btn-footer"
+              >
+                { showBtn ? 'Continuar Receita' : 'Iniciar Receita' }
+              </button>
+            </Link>
+          </section>
         </section>
       )}
     </section>

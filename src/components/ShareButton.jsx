@@ -34,8 +34,8 @@ function ShareButton({ path, dataTest }) {
         type="button"
         data-testid={ dataTest }
         src={ shareIcon }
-        width="10px"
         onClick={ copyToClipBoard }
+        className="search-btn"
       >
         <img src={ shareIcon } alt="share" />
       </button>

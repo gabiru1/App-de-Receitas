@@ -69,72 +69,79 @@ function DetailsFoodRecipe() {
   }
 
   return (
-    <section>
+    <section className="main-section">
       { details.length > 0 && (
         <section>
           <img
             src={ details[0].strMealThumb }
             alt={ details[0].strMeal }
             data-testid="recipe-photo"
-            className="card-image"
+            className="detail-image"
           />
-          <h1 data-testid="recipe-title">{details[0].strMeal}</h1>
-          <button type="button" onClick={ handleFavorite }>
-            <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
-          </button>
-          <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
-          <h3 data-testid="recipe-category">{ details[0].strCategory }</h3>
-          {ingredients.map((ingredient, index) => (
-            (ingredient !== ' -  ') && (
-              <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-                {ingredient}
-              </p>
-            )))}
-          <div>
-            <h3>Modo de preparo</h3>
-            <p data-testid="instructions">{ details[0].strInstructions }</p>
-          </div>
-          <div className="video-responsive">
-            <iframe
-              data-testid="video"
-              width="360"
-              height="360"
-              src={ `https://www.youtube.com/embed/${getVideoId(details)}` }
-              frameBorder="0"
-              allow={ `accelerometer; autoplay; clipboard-write;
+          <section className="sub-section">
+            <div className="container-btns-title">
+              <h2 data-testid="recipe-title">{details[0].strMeal}</h2>
+              <button type="button" onClick={ handleFavorite } className="search-btn">
+                <img data-testid="favorite-btn" src={ heart } alt="favoritar" />
+              </button>
+              <ShareButton path={ `comidas/${recipeId}` } dataTest="share-btn" />
+            </div>
+            <h4 data-testid="recipe-category">{ details[0].strCategory }</h4>
+            <div>
+              <h3>Ingredients</h3>
+              {ingredients.map((ingredient, index) => (
+                (ingredient !== ' -  ') && (
+                  <p key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+                    {ingredient}
+                  </p>
+                )))}
+            </div>
+            <div>
+              <h3>Modo de preparo</h3>
+              <p data-testid="instructions">{ details[0].strInstructions }</p>
+            </div>
+            <div className="video-responsive">
+              <iframe
+                data-testid="video"
+                width="360"
+                height="360"
+                src={ `https://www.youtube.com/embed/${getVideoId(details)}` }
+                frameBorder="0"
+                allow={ `accelerometer; autoplay; clipboard-write;
               encrypted-media; gyroscope; picture-in-picture` }
-              allowFullScreen
-              title="Embedded youtube"
-            />
-          </div>
-          <div className="carousel">
-            <h3>Bebidas Recomendadas</h3>
-            <Slider { ...settings }>
-              {recommended.drinks.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
-                <CardRecommendedRecipe
-                  key={ index }
-                  alcoholic={ recipe.strAlcoholic }
-                  dataTesteID={ index }
-                  src={ recipe.strDrinkThumb }
-                  name={ recipe.strDrink }
-                  id={ recipe.idDrink }
-                  path={ `/bebidas/${recipe.idDrink}` }
-                />
-              ))}
-            </Slider>
-          </div>
-          <Link
-            data-testid="start-recipe-btn"
-            className="link-btn-footer"
-            to={ `/comidas/${recipeId}/in-progress` }
-          >
-            <button
-              type="button"
-              className="btn-footer"
+                allowFullScreen
+                title="Embedded youtube"
+              />
+            </div>
+            <div>
+              <h3>Bebidas Recomendadas</h3>
+              <Slider { ...settings }>
+                {recommended.drinks.slice(0, MAX_RECOMMENDED).map((recipe, index) => (
+                  <CardRecommendedRecipe
+                    key={ index }
+                    alcoholic={ recipe.strAlcoholic }
+                    dataTesteID={ index }
+                    src={ recipe.strDrinkThumb }
+                    name={ recipe.strDrink }
+                    id={ recipe.idDrink }
+                    path={ `/bebidas/${recipe.idDrink}` }
+                  />
+                ))}
+              </Slider>
+            </div>
+            <Link
+              data-testid="start-recipe-btn"
+              className="link-btn-footer"
+              to={ `/comidas/${recipeId}/in-progress` }
             >
-              { showBtn ? 'Continuar Receita' : 'Iniciar Receita' }
-            </button>
-          </Link>
+              <button
+                type="button"
+                className="btn-footer"
+              >
+                { showBtn ? 'Continuar Receita' : 'Iniciar Receita' }
+              </button>
+            </Link>
+          </section>
         </section>
       )}
     </section>

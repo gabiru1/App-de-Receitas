@@ -61,9 +61,6 @@ code {
     position: fixed;
     width: 100%;
   }
-  .carousel {
-    margin: 10px;
-  }
 
   .container-buttons-explore {
     display: flex;
@@ -126,17 +123,48 @@ code {
     display: flex;
     justify-content: center;
     position: fixed;
-    width: 100%;
+    width: 100vw;
   }
 
   .btn-footer {
     font-size: large;
     height: 40px;
-    width: 80%;
+    width: 90vw;
   }
 
   .checked {
     text-decoration: line-through;
+  }
+
+  .container-select {
+    display: flex;
+    justify-content: center;
+    margin: 5%;
+  }
+
+  .select-origin {
+    font-size: large;
+    padding: 5px;
+    width: 70%;
+  }
+
+  .main-section {
+    margin-bottom: 45px;
+    width: 100vw;
+  }
+
+  .detail-image {
+    height: 30vh;
+    width: 100vw;
+  }
+
+  .sub-section {
+    margin: 2%;
+  }
+
+  .container-btns-title {
+    display: flex;
+    justify-content: space-between;
   }
 
 }
