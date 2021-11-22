@@ -103,8 +103,6 @@ function DetailsFoodRecipe() {
             <div className="video-responsive">
               <iframe
                 data-testid="video"
-                width="360"
-                height="360"
                 src={ `https://www.youtube.com/embed/${getVideoId(details)}` }
                 frameBorder="0"
                 allow={ `accelerometer; autoplay; clipboard-write;
