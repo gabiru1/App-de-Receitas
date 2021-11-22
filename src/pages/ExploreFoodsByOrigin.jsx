@@ -45,8 +45,9 @@ function ExploreFoodsByOrigin() {
   return (
     <div>
       <Header title="Explorar Origem" showSearchBtn />
-      <div>
+      <div className="container-select">
         <select
+          className="select-origin"
           data-testid="explore-by-area-dropdown"
           name="selectedArea"
           value={ selectedArea }
