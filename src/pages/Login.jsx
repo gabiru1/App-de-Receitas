@@ -22,6 +22,7 @@ function Login({ history }) {
     <div className="containerLogin">
       <form className="boxLogin">
         <Input
+          placeholder="email"
           className="InputLogin"
           type="email"
           onChange={ (e) => setEmail(e.target.value) }
@@ -29,6 +30,7 @@ function Login({ history }) {
           dataTestID="email-input"
         />
         <Input
+          placeholder="senha"
           className="InputLogin"
           type="password"
           onChange={ (e) => setPassword(e.target.value) }

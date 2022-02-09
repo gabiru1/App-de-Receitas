@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import shareIcon from '../images/shareIcon.svg';
 
