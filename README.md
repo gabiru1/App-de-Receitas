@@ -23,3 +23,9 @@ A base de dados serão 2 APIs distintas, uma para comidas e outra para bebidas.
 O layout tem como foco dispositivos móveis, então todos os protótipos vão estar desenvolvidos em telas menores.
 
 ---
+
+## Participantes do projeto
+[Gabriel Sampaio Bicalho](https://github.com/gabiru1) <br/>
+[Matheus Henrique Gonzaga](https://github.com/Matheushg156) <br/>
+[Ronaldo Sena Junior](https://github.com/ronaldosenajr) <br/>
+[Vitor Oliveira SIlva](https://github.com/vitorSilva95)
